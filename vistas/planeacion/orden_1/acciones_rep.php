@@ -10,7 +10,7 @@ switch ($_GET['sw']){
                   $pedfom=($_GET['num']);
                   $ped=($_GET['ped']);
 
-                    $queryc = mysqli_query($conexion,"SELECT * FROM cotizacion where pedido='".$ped."' and estado='Aprobado'   ");
+                    $queryc = mysqli_query($conexion,"SELECT * FROM cotizacion where pedido='".$ped."' and estado!='Anulado'   ");
                     $fila2 = mysqli_fetch_array($queryc);
                     $estado= $fila2["estado"];
                     $orden= $fila2["orden"];
@@ -194,7 +194,7 @@ switch ($_GET['sw']){
              . '<td>'.$anu.' '.$btntrazabilidad.' '.$btnpartes.'</td>';
              // compuestos del pedido 
          }
-         echo '<tr><td colspan="10"></td><td><input type="text" value="'.$co.'" style="width:50px" id="canord" disabled></td>'; 
+         echo '<tr><td colspan="10"></td><td>'.$co.'</td>'; 
         break;
         case 5:
         $op=$_GET['op'];
@@ -309,20 +309,15 @@ switch ($_GET['sw']){
                   $ped=($_GET['ped']);
 
                     
-                    $query = mysqli_query($conexion,"SELECT id_orden,ref, congelado,porque,estado_o FROM orden_produccion where opf='".$num."' and tipofom='$tip' ");
+                    $query = mysqli_query($conexion,"SELECT id_orden,ref, congelado,porque FROM orden_produccion where opf='".$num."' and tipofom='$tip' ");
                     $fila = mysqli_fetch_array($query);
                     if($fila['congelado']=='0'){
-                        $color = '#EDF713';
-                    }else if($fila['congelado']=='1'){
                         $color = '#F9DECC';
                     }else{
                         $color = '#E5F9CC';
                     }
-                   
-                      $p = array();
-                      $p[0] = $fila['congelado'];
-                      $p[1] = $fila['estado_o'];
-                      echo json_encode($p);
+                    echo $fila['congelado'];
+                    
                     // 3
                     break;
 

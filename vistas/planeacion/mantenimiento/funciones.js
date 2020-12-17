@@ -67,16 +67,18 @@ function mostrar_cotizacion(id,lin){
               $("#numcot").val(t[24]+'.'+t[25]);
               //consulta de tercero
               //en esta parte se consulta el pedido sin haberse guardado en fomplus
-             if(t[64]==''){
-                 consultar_tercero(t[33]);
-                 detalles_cotizacion(id,lin);
-             }else{
+//             if(t[64]==''){
+//                 consultar_tercero(t[33]);
+//                 detalles_cotizacion(id,lin);
+//             }else{
                  validar_tercero(t[64]);
                  detalles_pedido(id,lin);
                  $("#obs").val(t[62]);
-             }
-              
-              consultar_usuarios(t[6]);
+             //}
+              if(t[54]!=''){
+                $("#codcue").val(t[56]);
+                consultar_cuenta(t[56]);
+              }
               
               //fin
               $("#codalm").val();
@@ -92,6 +94,8 @@ function mostrar_cotizacion(id,lin){
               $("#sucursal").val(t[60]);
                $("#ciudad").val(t[67]);
              $("#msg").html(t[71]);
+             $("#idven").val(t[61]);
+         consultar_usuarios(t[6]);
 
              
          }
@@ -134,12 +138,15 @@ function validar_tercero(ced){
              }
              $("#nombrepro").val(da.CLI_CEDULA);
              $("#nterc").val(da.CLI_NOMBRE); 
-             $("#codcue").val(da.CLI_TIPCTA);
+             
              $("#direccion").val(da.CLI_DIRECC);
              $("#ciu").val(da.CLI_SUBZON);
               $("#codalm").focus();
-              
-             consultar_cuenta(da.CLI_TIPCTA);
+              var cu = $("#pedido").val();
+              if(cu==''){
+                  $("#codcue").val(da.CLI_TIPCTA);
+                  consultar_cuenta(da.CLI_TIPCTA);
+              }
              consultar_tercero_monty(da.CLI_CEDULA,da.CLI_NOMBRE,da.CLI_TIPCTA,da.CLI_DIRECC,da.CLI_SUBZON,da.CLI_TELEFO,da.CLI_EMAIL,da.CLI_VENDED);
              
           }

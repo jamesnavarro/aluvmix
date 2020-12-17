@@ -66,7 +66,7 @@
                            <tr>
                                <td>Tipo de pedido</td>
                                <td>
-                                 <select id="tipo" style="width: 100px">
+                                 <select id="tipo" style="width: 100px" disabled>
                                    <option value="1">1.-Pedido</option>
                                    <option value="2">2.-Cotizacion</option>
                                    <option value="3">3.-Consignacion</option>
@@ -83,7 +83,7 @@
                            </tr>
                            <tr>
                                 <td>Tercero</td>
-                              <td><input type="text" onchange="validar_tercero(this.value);" id="nombrepro" style="width: 100px" value=""><button onclick="inv_tercero_popup(0);" id="btn_ter">00</button> 
+                              <td><input type="text" disabled onchange="validar_tercero(this.value);" id="nombrepro" style="width: 100px" value=""><button onclick="inv_tercero_popup(0);" id="btn_ter">00</button> 
                                <input type="text" id="nterc" style="width: 250px" disabled value=""></td>
                                <td>Direccion</td>
                                <td><input type="text" id="direccion" style="width:250px" value=""> <span id="ebs"></span></td>
@@ -102,16 +102,16 @@
                                <td></td>
                                <td></td>
                                <td>Sucursal</td>
-                               <td><input type="text" id="sucursal" style="width: 130px" value="" onclick="sucursales()"></td>
+                               <td><input type="text" id="sucursal" disabled style="width: 130px" value="" onclick="sucursales()"></td>
                            </tr>  
                            <tr>
                                <td>Almacen:</td> 
-                               <td><input type="text" id="codalm" style="width: 100px"  onchange="bus_almacen();" value="">
+                               <td><input type="text" id="codalm" disabled style="width: 100px"  onchange="bus_almacen();" value="">
                                    <button onclick="inv_bodega_popup();" id="btn_bod">00</button> 
                                    <input type="text" id="nomalm" style="width: 250px" disabled></td>
                                
                                <td>Transportador </td>
-                               <td><input type="text" id="tran" style="width: 100px" value="0001">
+                               <td><input type="text" id="tran" disabled style="width: 100px" value="0001">
                                    <input type="text" id="nomtran" style="width: 150px" disabled value="LOCAL"> </td>
                                <td>Estado</td>
                                <td><input type="text" id="est" value="0" disabled style="width: 100px" ></td>

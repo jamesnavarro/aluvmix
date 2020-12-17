@@ -41,7 +41,7 @@
                    
 <!--                   <button  onclick="Imprimir();"><img src="../../images/printer.png" title="Imprimir Registro"> Imprimir</button>-->
                    <button onclick="salir();"><img src="../../images/salir.png"  title="Salir del Formulario">Salir</button>
-                   <button onclick="imprimir();"><img src="../../images/printer.png"  title="Salir del Formulario">PDF</button>
+                   <button onclick="imprimir_acc();"><img src="../../images/printer.png"  title="Salir del Formulario">PDF</button>
                    <b>Bodega</b><select id="bodega" onchange="mostrar_desglose(<?php echo $_GET['cot'];?>)">
                        <option value="">Seleccione la bodega</option>
                        <?php

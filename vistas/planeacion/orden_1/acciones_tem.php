@@ -10,7 +10,7 @@ switch ($_GET['sw']){
                   $pedfom=($_GET['num']);
                   $ped=($_GET['ped']);
 
-                    $queryc = mysqli_query($conexion,"SELECT * FROM cotizacion where pedido='".$ped."' and estado='Aprobado'   ");
+                    $queryc = mysqli_query($conexion,"SELECT * FROM cotizacion where pedido='".$ped."' and estado!='Anulado'   ");
                     $fila2 = mysqli_fetch_array($queryc);
                     $estado= $fila2["estado"];
                     $orden= $fila2["orden"];

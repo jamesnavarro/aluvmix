@@ -142,7 +142,8 @@ session_start();
                                                     $aiu_iva = $aiu_uti * 0.19;
                                                     $iva = $aiu_iva;
                                                     $aiu_iva_total = $aiu_iva - $aiu_uti;
-                                                    $gt = $aiu_adm+$aiu_imp+$aiu_uti+$aiu_iva_total+$total+$iva;
+                                                    $gtbk = $aiu_adm+$aiu_imp+$aiu_uti+$aiu_iva_total+$total+$iva;
+                                                    $gt = $total + number_format($aiu_adm,0,'','') + number_format($aiu_imp,0,'','') + number_format($aiu_uti,0,'','') + number_format($iva,0,'','') ;
                                                 }else{
                                                     $aiu_adm = $total * 0;
                                                     $aiu_imp = $total * 0;
@@ -162,19 +163,19 @@ session_start();
                                                     <table style="width: 100%">
                                                             <tr>
                                                                 <td>VALOR SUBTOTAL:</td>
-                                                                <td style="text-align: right">$ <?php echo number_format($total,2); ?> </td> 
+                                                                <td style="text-align: right">$ <?php echo number_format($total,0,'.',','); ?> </td> 
                                                             </tr>
                                                             <tr>
                                                                 <td>ADMINISTRACION 10%:</td>
-                                                                <td style="text-align: right">$ <?php echo number_format($aiu_adm,2); ?> </td> 
+                                                                <td style="text-align: right">$ <?php echo number_format($aiu_adm,0,'.',','); ?> </td> 
                                                             </tr>
                                                             <tr>
                                                                 <td>IMPREVISTO 10%:</td>
-                                                                <td style="text-align: right">$ <?php echo number_format($aiu_imp,2); ?> </td> 
+                                                                <td style="text-align: right">$ <?php echo number_format($aiu_imp,0,'.',','); ?> </td> 
                                                             </tr>
                                                             <tr>
                                                                 <td>UTILIDAD 5%:</td>
-                                                                <td style="text-align: right">$ <?php echo number_format($aiu_uti,2); ?> </td> 
+                                                                <td style="text-align: right">$ <?php echo number_format($aiu_uti,0,'.',','); ?> </td> 
                                                             </tr>
                                                             <tr>
                                                                 <td>VR. DESCUENTOS:</td>
@@ -182,19 +183,19 @@ session_start();
                                                             </tr>
                                                             <tr>
                                                                 <td>VR. IVA  </td>
-                                                                <td style="text-align: right">$ <?php echo number_format($iva,2); ?></td>
+                                                                <td style="text-align: right">$ <?php echo number_format($iva,0,'.',','); ?></td>
                                                             </tr><tr>
                                                                 <td>RETENCION </td>
-                                                                <td style="text-align: right">$ <?php echo number_format($rete,2); ?></td>
+                                                                <td style="text-align: right">$ <?php echo number_format($rete,0,'.',','); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>VR. ICA</td>
-                                                                <td style="text-align: right">$ <?php echo number_format($tica,2); ?></td>
+                                                                <td style="text-align: right">$ <?php echo number_format($tica,0,'.',','); ?></td>
                                                             </tr>
                                                      
                                                             <tr>
                                                                 <td>TOTAL ORDEN:</td>
-                                                                <td style="text-align: right"><?php echo '$: '.number_format(($gt),2);?></td>
+                                                                <td style="text-align: right"><?php echo '$: '.number_format(($gt),0,'.',',');?></td>
                                                             </tr>
                                                           
                                                     </table><br><br><br><br>

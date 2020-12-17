@@ -9,7 +9,11 @@ function imprimir() {
     var cot = $("#cot").val(); 
     window.open("pdf.php?cot="+cot+"&obs="+obs, "Lista de Accesorios", "width=1000px , height=600px");
 }      
-
+function imprimir_acc() {
+    var obs = $("#obs").val(); 
+    var cot = $("#cot").val(); 
+    window.open("pdf_acc.php?cot="+cot+"&obs="+obs, "Lista de Accesorios", "width=1000px , height=600px");
+}  
 function imprimir_alum() {
     var obs = $("#obs").val(); 
     var cot = $("#cot").val(); 

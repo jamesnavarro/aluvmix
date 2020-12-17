@@ -25,7 +25,7 @@ if(!isset($_SESSION['k_username'])){
                 <script src="../js/jquery.min.js"></script>
                 <script src="../js/sweetalert.min.js"></script>
                 <link rel="stylesheet" type="text/css" href="../js/sweetalert.css">
-                <script src="../controlador/control.js?v=1.5"></script>
+                <script src="../controlador/control.js?v=1.6"></script>
 		<script src="../controlador/inventario.js?v=3.5"></script>
                <script src="../controlador/compras.js?<?php echo rand(1,100) ?>"></script> 
                 <script src="../controlador/configuraciones.js?<?php echo rand(1,100) ?>"></script>
@@ -1051,6 +1051,14 @@ if(!isset($_SESSION['k_username'])){
 										</a>
 										<b class="arrow"></b>
 									</li>
+                                                                         <li class="">
+										<a href="#TipoCuentas" onclick="car_clientesfom();">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Sincronizar Clientes Fom
+										</a>
+
+										<b class="arrow"></b>
+									</li>
                                                                          <?php } ?>
 
 									
@@ -1247,6 +1255,14 @@ if(!isset($_SESSION['k_username'])){
 										  <a href="#Colores" onclick="inv_colores();">
 											<i class="menu-icon fa fa-caret-right"></i>
 											Color
+										</a>
+
+										<b class="arrow"></b>
+									</li>
+                                                                        <li class="">
+										  <a href="#Colores" onclick="colores_fom();">
+											<i class="menu-icon fa fa-caret-right"></i>
+											Sincronizar Color
 										</a>
 
 										<b class="arrow"></b>

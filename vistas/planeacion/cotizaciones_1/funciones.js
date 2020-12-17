@@ -82,7 +82,10 @@ function mostrar_cotizacion(id,lin){
                  detalles_pedido(id,lin);
                  $("#obs").val(t[62]);
              }
-              
+              if(t[54]!=''){
+                $("#codcue").val(t[56]);
+                consultar_cuenta(t[56]);
+              }
               consultar_usuarios(t[6]);
               
               //fin
@@ -145,12 +148,16 @@ function validar_tercero(ced){
              }
              $("#nombrepro").val(da.CLI_CEDULA);
              $("#nterc").val(da.CLI_NOMBRE); 
-             $("#codcue").val(da.CLI_TIPCTA);
+            
              $("#direccion").val(da.CLI_DIRECC);
              $("#ciu").val(da.CLI_SUBZON);
              $("#cre").val(da.CLI_FORPAG);
               $("#codalm").focus();
-             consultar_cuenta(da.CLI_TIPCTA);
+             var cu = $("#pedido").val();
+              if(cu==''){
+                  $("#codcue").val(da.CLI_TIPCTA);
+                  consultar_cuenta(da.CLI_TIPCTA);
+              }
              validar_ciudad(da.CLI_SUBZON);
              consultar_tercero_monty(da.CLI_CEDULA,da.CLI_NOMBRE,da.CLI_TIPCTA,da.CLI_DIRECC,da.CLI_SUBZON,da.CLI_TELEFO,da.CLI_EMAIL,da.CLI_VENDED);
              
@@ -603,21 +610,32 @@ function pasarptfon(ref,gru,cla,codf){
      $("#modalfom").modal('hide');
 }
 
-function anul_c(){
+function aprobar_items(co){
        var est = $("#est").val();
-//    if(est=='En Proceso'){
-        var c = confirm("Esta seguro de anular este pedido");
-//        if(c){
-//        $.ajax({
-//          type:'GET',
-//          data:'anular=1&ordenx='+$("#idorden").val(),
-//          url:'../vistas/planeacion/aprofom/acciones.php',
-//          success: function(data){
-//              alert(data);
-//              $("#est").val('Anulado');
-//          }
-//      });
-//        }  
+       var lin = $("#lin").val();
+       var id = $("#cot").val();
+    if(est=='En proceso'){
+        var c = confirm("Esta seguro de anular este Items?"); 
+        if(c){
+        $.ajax({
+          type:'GET',
+          data:'sw=13&cod='+$("#item"+co).val(),
+          url:'acciones.php',
+          success: function(data){
+              alert(data);
+              detalles_cotizacion(id,lin);
+          }
+      });
+        }  else{
+       
+        $("#"+co).prop("checked",true);
+        return false;
+    }
+    }else{
+        alert("Ya no puedes anular este items");
+        $("#"+co).prop("checked",true);
+        return false;
+    }
            
 }
 function updateitemped(id){

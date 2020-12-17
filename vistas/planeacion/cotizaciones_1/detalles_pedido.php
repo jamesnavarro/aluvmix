@@ -22,7 +22,7 @@ if($query){
         $c +=1;
         $cont++;
        
-       $gt +=$row["valor_total"];
+       $gt +=number_format($row["valor_und"],0,'','') * $row['cantidad'];
        $descripcion = preg_replace('/( ){2,}/u',' ',$row['descripcion']);
        $contador =  strlen($descripcion);
                 $table = $table.'<tr><td></td><td width="7%">'

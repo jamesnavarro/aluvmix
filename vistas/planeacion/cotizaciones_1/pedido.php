@@ -149,8 +149,8 @@
                                <th style="width: 120px">MEDIDA</th>
                                <th style="width: 100px">COLOR</th>
                                <th style="width: 50px">CANT</th>
-                               <th style="width:80px">PRECIO UNID</th>
-                               <th style="width: 80px">TOTAL</th>
+                               <th style="width:50px">PRECIO UNID</th>
+                               <th style="width: 50px">TOTAL</th>
 <!--                               <th>OBSERVACIONES</th>-->
                                <th style="width: 10px"></th>
                            </tr>
@@ -276,6 +276,7 @@
               </div>
           </div>
       </div>
+              <input type="text" id="lin" value="<?php echo $_GET['linea'];?>" disabled>      
       <script type="text/javascript">
           var id='<?php echo $_GET['cot'];?>';
           var lin='<?php echo $_GET['linea'];?>';

@@ -12,7 +12,7 @@ session_start();
     //37339372.27119596
     $estado = $_GET['est'];
 
-   $query =mysqli_query($con2,"SELECT * FROM producto a, cotizaciones c WHERE c.id_referencia = a.id_p  AND  c.id_cot = " . $_GET["cot"] . " and c.id_compuesto=0 ORDER BY c.id_cotizacion ASC ".$limit);
+   $query =mysqli_query($con2,"SELECT * FROM producto a, cotizaciones c WHERE c.id_referencia = a.id_p  AND  c.id_cot = " . $_GET["cot"] . " and c.id_compuesto=0 and c.estado_item='' ORDER BY c.id_cotizacion ASC ".$limit);
 
 
 
@@ -137,6 +137,33 @@ if($query){
                 $ref=''.strtoupper($v1).''.strtoupper($row['producto']).'  '.strtoupper($peli).'  '.strtoupper($d1).'  '.strtoupper($obs2).'  '.$noti.''.$noti2.''.$row["descripcion_rollo"].''.$poli.' '.$row['ubicacion_c'];
                 $cadena_sin_espacios = preg_replace('/( ){2,}/u',' ',$ref);
                  $contador =  strlen($cadena_sin_espacios);
+                  if($row["ancho_temp"]!=0){
+                   $medidas = $row["ancho_temp"].'X'.$row["alto_temp"];
+                    $m2 = ((($row["ancho_temp"]/1000)*($row["alto_temp"]/1000)))*$row["cantidad_c"];
+                    $ml = ($row["ancho_temp"]/1000)*$row["cantidad_c"];
+               }else{
+                   $medidas = $row["ancho_c"].'X'.$row["alto_c"];
+                    $m2 = ((($row["ancho_c"]/1000)*($row["alto_c"]/1000)))*$row["cantidad_c"];
+                    $ml = ($row["ancho_c"]/1000)*$row["cantidad_c"];
+               }
+              
+
+                $pm2 = $ptt2 / $m2; 
+                $pml = $ptt2 / $ml;
+                if($row["cobro"]=='M2'){
+                    $preciound = ($pm2);
+                    $cobro = number_format($m2,2,'.',',');
+                    $undidad = $row["cobro"];
+                }elseif($row["cobro"]=='Ml'){
+                    $preciound = ($pml);
+                    $cobro = $ml;
+                    $undidad = $row["cobro"];
+                }else{
+                    $preciound = ($pudt);
+                    $cobro = $row["cantidad_c"];
+                    $undidad = '94';
+                }
+                
                 $table = $table.'<tr><td><img src="../../../imagenes/buscar.png" onclick="buscarcodfom('.$cont.')"></td><td width="7%">'
                         .''
                         .'<input type="text" id="cod'.$cont.'" value="'.$row['ptfom'].'" onchange="buscarpt('.$cont.')" title="'.$row['codigo'].'" style="width:100%">
@@ -145,17 +172,59 @@ if($query){
                         <input type="hidden"  id="cla'.$cont.'" value="'.$row['clase'].'">
                         <input type="hidden"  id="ref'.$cont.'" value="'.$row['refpro'].'"></td>
                         <td width="25%"><textarea id="des'.$cont.'" rows="4" style="width:100%" onkeyup="contar('.$cont.')">'.$cadena_sin_espacios.'</textarea></td>                     
-                        <td width="9%"><input type="text"  id="und'.$cont.'" value="94" style="width:100%"></td>
+                        <td width="9%"><input type="text"  id="und'.$cont.'" value="'.$undidad.'" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text"  id="med'.$cont.'" value="'.$row["ancho_c"].'X'.$row["alto_c"].'" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text"  id="col'.$cont.'" onclick="buscarcolor('.$cont.')" value="'.trim($colorp).'" style="width:100%"></td>
-                        <td class="hidden-phone"><input type="text" id="can'.$cont.'" value="'.$row['cantidad_c'].'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="can'.$cont.'" value="'.$cobro.'" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text" id="vlr'.$cont.'" value="'.number_format($pudt,0,'','').'"  style="width:100%"></td>
                         <td class="hidden-phone"><input type="text" id="tot'.$cont.'" value="'.number_format($ptt2,0,'','').'" style="width:100%" disabled>
                         <input type="hidden" id="obs'.$cont.'" value="'.$row['ubicacion_c'].'" style="width:100%">'
                         . '<input type="hidden" id="item'.$cont.'" value="'.$row['id_cotizacion'].'" style="width:100%">'
-                        . '<td><input type="checkbox" id="'.$cont.'" name="item" checked disabled><span id="con'.$cont.'">'.$contador.'</span></td></tr>';   
+                        . '<td><input type="checkbox" id="'.$cont.'" name="item" checked onclick="aprobar_items('.$cont.')"><span id="con'.$cont.'">'.$contador.'</span></td></tr>';   
        
 	} 
+         $cot = $_GET['cot'];
+        $query = mysqli_query($con2,"select * from cotizaciones_materiales where id_cotizacion = '".$_GET['cot']."' ");
+        
+  
+        $nt = 0;
+        $tt = 0;
+        while($f = mysqli_fetch_array($query)){
+            $c ++;
+            $cont++;
+            $nt += $f[12];
+            $tt += $f[13];
+            $gt += $f[11]*$f[3];
+//            $table = $table. '<tr>'
+//                    . '<td>'.$c.'</td>'
+//                    . '<td>'.$f[15].'</td>'
+//                    . '<td>'.$f[14].'</td>'
+//                    . '<td>'.$f[9].'</td>'
+//                    . '<td><input type="number" id="v_med'.$cont.'" value="'.$f[7].'" style="width:60px" disabled></td>'
+//                    . '<td><input type="number" id="v_can'.$cont.'" value="'.$f[3].'" style="width:50px" disabled></td>'
+//                    . '<td><input type="number" id="v_und'.$cont.'" value="'.$f[11].'" style="width:80px;text-align:right" disabled></td>'
+//                    . '<td><input type="number" id="v_net'.$cont.'" value="'.$f[12].'" style="width:80px;text-align:right" disabled></td>'
+//                    . '<td><input type="number" id="v_tot'.$cont.'" value="'.$f[13].'" style="width:80px;text-align:right" disabled></td>'
+//                    . '<td><input type="number" id="v_por'.$cont.'" value="'.$f[4].'" style="width:60px;text-align:right"  disabled></td>'
+//                    . '<td>-</td>';
+            $table = $table.'<tr><td><img src="../../../imagenes/buscar.png" onclick="buscarcodfom('.$cont.')"></td><td width="7%">'
+                        .''
+                        .'<input type="text" id="cod'.$cont.'" value="" onchange="buscarpt('.$cont.')" title="'.$f[15].'" style="width:100%">
+                        <input type="hidden"  id="codtem'.$cont.'" value="'.$f[15].'">
+                        <input type="hidden"  id="gru'.$cont.'" value="">
+                        <input type="hidden"  id="cla'.$cont.'" value="">
+                        <input type="hidden"  id="ref'.$cont.'" value=""></td>
+                        <td width="25%"><textarea id="des'.$cont.'" rows="4" style="width:100%" onkeyup="contar('.$cont.')">'.$f[14].'</textarea></td>                     
+                        <td width="9%"><input type="text"  id="und'.$cont.'" value="94" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text"  id="med'.$cont.'" value="'.$f[7].'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text"  id="col'.$cont.'" onclick="buscarcolor('.$cont.')" value="'.trim($f[9]).'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="can'.$cont.'" value="'.$f[3].'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="vlr'.$cont.'" value="'.number_format($f[11],0,'','').'"  style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="tot'.$cont.'" value="'.number_format($f[12],0,'','').'" style="width:100%" disabled>
+                        <input type="hidden" id="obs'.$cont.'" value="" style="width:100%">'
+                        . '<input type="hidden" id="item'.$cont.'" value="'.$f[0].'" style="width:100%">'
+                        . '<td><input type="checkbox" id="'.$cont.'" name="item" checked disabled><span id="con'.$cont.'">'.$contador.'</span></td></tr>'; 
+        }
         $table = $table.'<tr><td></td><td><input type="text" disabled id="ct" value="'.$c.'" style="width:100%"></td>'
                 . '<td>Actualizados: <input type="text" disabled id="cv" value="'.$ca.'" style="width:40px"></td>'
                 . '<td colspan="4"></td><td>Valor Total</td>'

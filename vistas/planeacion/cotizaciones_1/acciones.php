@@ -294,7 +294,7 @@ switch ($_GET['sw']){
                 $d['Descripcion'] = preg_replace('/( ){2,}/u',' ',$f['descripcion']);
                 $d['UnidadMedida'] = $f['unidad'];
                 $d['Cantidad'] = $f['cantidad'];
-                $d['ValorUnitario'] = $f['valor_und'];
+                $d['ValorUnitario'] = number_format($f['valor_und'],0,'','');
                 $d['PorcentajeIVA'] = $iva;
                 $d['Grupo'] = $f['grupo'];
                 $d['Clase'] = $f['clase'];
@@ -379,6 +379,15 @@ switch ($_GET['sw']){
         $dire = $_GET['dire'];
         $zona = $_GET['zona'];
         
+        
+        break;
+    case 13:
+        
+        $cod = $_GET['cod']; 
+
+        $request=mysqli_query($con2,"update cotizaciones set aprobado_por_user='".$_SESSION['k_username']."', estado_item='Anulado', fecha_aprobada='".$fecha."' where id_cotizacion ='$cod' ");
+        echo 'Se anulo el items '.$cod;
+           
         
         break;
 }

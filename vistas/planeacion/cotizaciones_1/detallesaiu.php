@@ -219,8 +219,8 @@ $c++;
                         <td class="hidden-phone"><input type="text"  id="med'.$cont.'" value="'.$medidas.'" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text"  id="col'.$cont.'" value="'.$colorp.'"  onclick="buscarcolor('.$cont.')" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text" id="can'.$cont.'" value="'.$row['cantidad_c'].'" style="width:100%"></td>
-                        <td class="hidden-phone"><input type="text" id="vlr'.$cont.'"  value="'.$unidad_aiu_und.'" style="width:100%"></td>
-                        <td class="hidden-phone"><input type="text" id="tot'.$cont.'" value="'.$unidad_aiu_total.'" disabled style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="vlr'.$cont.'"  value="'.number_format($unidad_aiu_und,0,'','').'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="tot'.$cont.'" value="'.number_format($unidad_aiu_total,0,'','').'" disabled style="width:100%"></td>
                         <td class="hidden-phone"><input type="text" id="obs'.$cont.'" value="" style="width:100%">'
                         . '<input type="hidden" id="item'.$cont.'" value="'.$row['id_cotizacion'].'" style="width:100%"></td></tr>';   
        

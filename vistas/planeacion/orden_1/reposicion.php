@@ -30,17 +30,17 @@
         <link rel="stylesheet" href="../../assets/css/bootstrap-datetimepicker.min.css" />
         <link rel="stylesheet" href="../../assets/css/bootstrap-colorpicker.min.css" />
         <link href="../../../css/estilo.css" rel="stylesheet">
-        <script src="funciones.js?v=<?php echo rand(1, 999) ?>"></script>
+        <script src="funciones_rep.js?v=<?php echo rand(1, 999) ?>"></script>
    
     </head>
     <body>
         <div>
-            <h3>ORDEN DE PRODUCCION <?php echo $_GET['num'] ?></h3>
+            <h3>ORDEN DE REPOSICION <?php echo $_GET['num'] ?></h3>
         </div>
         <div class="border">
           
                <div  style="float:left">
-                   <button type="button"  id="Guardar" class="btn-info" onclick="save_total();"><img src="../../images/save.png"> Guardar y mandar a produccir</button> 
+                   <button type="button"  id="Guardar" onclick="save_total();"><img src="../../images/save.png"> Guardar y mandar a produccir</button> 
                 
                    <button  onclick="openop();"><img src="../../images/modificar.png" style="width:30px"> Abrir OP</button>
                    
@@ -133,7 +133,7 @@
                                <th style="width: 50px">PER</th>
                                <th style="width: 50px">BOQ</th>
                                <th style="width: 90px">MEDIDA</th>
-                               <th style="width: 50px">UNDMED</th>
+             
                                <th style="width: 70px">CAN PED</th>
                                
                                <th style="width:70px">CAN PRO</th>
@@ -252,7 +252,7 @@
                     <label for="codigo" class="col-sm-3 control-label">Cantidad</label>
                     <div class="col-sm-8">
                         <input type="text" class="auto" id="cant" name="cant">
-                        <input type="hidden" class="auto" id="cantid" name="cant">
+                      <input type="text" class="auto" id="cantid" name="cant">
                       
                     </div>
                   </div>

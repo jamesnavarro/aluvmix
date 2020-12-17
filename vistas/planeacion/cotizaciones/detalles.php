@@ -190,18 +190,39 @@ $c++;
                 $ref='';
                 $noti='';
                 $noti2='';
-                $ref='Item:'.$row['fila'].' - '.$row['tip'].' '.strtoupper($row['producto']).'  '.strtoupper($peli).'  '.strtoupper($d1).'  '.strtoupper($row['observaciones']).' PINT:'.strtoupper($row['color_ta']).' '.$noti.''.$noti2.''.$row["descripcion_rollo"].''.$poli.' '.strtoupper($vi).' (PRES:'.$fcot["coti"].') ('.substr($_SESSION['k_username'],0,2).')';
+                $ref='ITEM:'.$row['fila'].' - '.strtoupper($row['tip']).' '.strtoupper($row['producto']).'  '.strtoupper($peli).'  '.strtoupper($d1).'  '.strtoupper($row['observaciones']).' PINT:'.strtoupper($row['color_ta']).' '.$noti.''.$noti2.''.$row["descripcion_rollo"].''.$poli.' '.strtoupper($vi).' (PRES:'.$fcot["coti"].') ('.substr($_SESSION['k_username'],0,2).')';
                $preund = $tota / $row['cantidad_c'];
                $gt +=$tota;
                $cadena_sin_espacios = preg_replace('/( ){2,}/u',' ',$ref);
                if($row["ancho_temp"]!=0){
                    $medidas = $row["ancho_temp"].'X'.$row["alto_temp"];
+                    $m2 = ((($row["ancho_temp"]/1000)*($row["alto_temp"]/1000)))*$row["cantidad_c"];
+                    $ml = ($row["ancho_temp"]/1000)*$row["cantidad_c"];
                }else{
                    $medidas = $row["ancho_c"].'X'.$row["alto_c"];
+                    $m2 = ((($row["ancho_c"]/1000)*($row["alto_c"]/1000)))*$row["cantidad_c"];
+                    $ml = ($row["ancho_c"]/1000)*$row["cantidad_c"];
                }
+              
+
+                $pm2 = $tota / $m2; 
+                $pml = $tota / $ml;
+                if($row["cobro"]=='M2'){
+                    $preciound = ($pm2);
+                    $cobro = number_format($m2,2,'.',',');
+                    $undidad = $row["cobro"];
+                }elseif($row["cobro"]=='Ml'){
+                    $preciound = ($pml);
+                    $cobro = $ml;
+                    $undidad = $row["cobro"];
+                }else{
+                    $preciound = ($preund);
+                    $cobro = $row["cantidad_c"];
+                    $undidad = '94';
+                }
                
                $contador =  strlen($cadena_sin_espacios);
-                $table = $table.'<tr><td><img src="../../../imagenes/buscar.png" onclick="buscarcodfom('.$cont.')"></td><td width="7%">'
+                $table = $table.'<tr><td>*<img src="../../../imagenes/buscar.png" onclick="buscarcodfom('.$cont.')"></td><td width="7%">'
                         .' '
                         .'<input type="text" id="cod'.$cont.'" value="" onchange="buscarpt('.$cont.')" title="'.$row['codigo'].'" style="width:100%">
                         <input type="hidden"  id="codtem'.$cont.'" value="'.$row['codigo'].'">
@@ -209,11 +230,11 @@ $c++;
                         <input type="hidden"  id="cla'.$cont.'" value="'.$row['clase'].'">
                         <input type="hidden"  id="ref'.$cont.'" value="'.$row['refpro'].'"></td>
                         <td width="25%"><textarea  id="des'.$cont.'" rows="4" style="width:100%" onkeyup="contar('.$cont.')">'.$cadena_sin_espacios.'</textarea></td>                     
-                        <td width="9%"><input type="text"  id="und'.$cont.'" value="94" style="width:100%"></td>
+                        <td width="9%"><input type="text"  id="und'.$cont.'" value="'.$undidad.'" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text"  id="med'.$cont.'" value="'.$medidas.'" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text"  id="col'.$cont.'"  onclick="buscarcolor('.$cont.')" value="'.$colorp.'" style="width:100%"></td>
-                        <td class="hidden-phone"><input type="text" id="can'.$cont.'" value="'.$row['cantidad_c'].'" style="width:100%"></td>
-                        <td class="hidden-phone"><input type="text" id="vlr'.$cont.'"  value="'.number_format($preund,0,'','').'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="can'.$cont.'" value="'.$cobro.'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="vlr'.$cont.'"  value="'.number_format($preciound,0,'','').'" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text" id="tot'.$cont.'" value="'.number_format($tota,0,'','').'" disabled style="width:100%"></td>
                         <td class="hidden-phone">
                         <span id="con'.$cont.'">'.$contador.'</span> <input type="checkbox" id="'.$cont.'" name="item" checked  onclick="aprobar_items('.$cont.')">'
@@ -221,6 +242,88 @@ $c++;
                         . '<input type="hidden" id="item'.$cont.'" value="'.$row['id_cotizacion'].'" style="width:100%"></td></tr>';   
        
 	} 
+        
+          $query = mysqli_query($con2,"SELECT * FROM referencias a, cotizaciones_materiales b where a.id_referencia=b.id_material and b.id_cotizacion=".$_GET['cot']." and estad_mat=0 ");
+        
+  
+        $nt = 0;
+        $tt = 0;
+        while($f = mysqli_fetch_array($query)){
+            $c ++;
+            $cont++;
+             if($f['med']==1){
+                 $mt = 1;
+             }else{
+                 $mt = ($f['med']/1000);
+             }
+            $au = (100 - $f['aumento']) / 100;
+            $prt3 = $f["costo_mt"] / $au;
+            $desm = ($f['descuento_mat']/100) * ($prt3*$mt);
+            $alum_porr = "SELECT costo_a,variable FROM tipo_aluminio where color_a='".$f['color_ma']."'";
+            $fia4 =mysqli_fetch_array(mysqli_query($con2,$alum_porr));
+            $vc= $fia4["costo_a"];
+            $perimetro = $f["area"]/1000;
+               if($perimetro=='0'){
+                  $valor_acabado = $vc;
+               }else{
+                  $valor_acabado = $vc * $perimetro * ($f["med"]/1000) ;
+               }
+             $ddm = (((($prt3*$mt + $desm+$valor_acabado) * $f["cantidad_mat"]))/0.46275);
+             $gt += $ddm;
+             $contador =  strlen($f['descripcion']);
+            $table = $table.'<tr><td><img src="../../../imagenes/buscar.png" onclick="buscarcodfom('.$cont.')"></td><td width="7%">'
+                        .''
+                        .'<input type="text" id="cod'.$cont.'" value="" onchange="buscarpt('.$cont.')" title="'.$f[15].'" style="width:100%">
+                        <input type="hidden"  id="codtem'.$cont.'" value="'.$f[15].'">
+                        <input type="hidden"  id="gru'.$cont.'" value="">
+                        <input type="hidden"  id="cla'.$cont.'" value="">
+                        <input type="hidden"  id="ref'.$cont.'" value=""></td>
+                        <td width="25%"><textarea id="des'.$cont.'" rows="4" style="width:100%" onkeyup="contar('.$cont.')">'.$f['descripcion'].'</textarea></td>                     
+                        <td width="9%"><input type="text"  id="und'.$cont.'" value="94" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text"  id="med'.$cont.'" value="'.$f['med'].'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text"  id="col'.$cont.'" onclick="buscarcolor('.$cont.')" value="'.trim($f['color_ma']).'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="can'.$cont.'" value="'.$f['cantidad_mat'].'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="vlr'.$cont.'" value="'.number_format(($ddm/$f["cantidad_mat"]),0,'','').'"  style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="tot'.$cont.'" value="'.number_format($ddm,0,'','').'" style="width:100%" disabled>
+                        <input type="hidden" id="obs'.$cont.'" value="" style="width:100%">'
+                        . '<input type="hidden" id="item'.$cont.'" value="'.$f['id_cot_mat'].'" style="width:100%">'
+                        . '<td><input type="checkbox" id="'.$cont.'" name="item" checked   onclick="aprobar_items2('.$cont.')"><span id="con'.$cont.'">'.$contador.'</span></td></tr>'; 
+        }
+        
+        $query2 = mysqli_query($con2,"SELECT * FROM referencia_mo a, cotizaciones_servicios b where a.id_ref_mo=b.id_servicio and b.id_cotizacion=".$_GET['cot']." and id_cot_mas=0 and estado_serv='0'  ");
+        
+  
+        $nt2 = 0;
+        $tt2 = 0;
+        while($f = mysqli_fetch_array($query2)){
+            $c ++;
+            $cont++;
+            $nt2 += $f[12];
+            $tt2 += $f[13];
+            $total_items = $f[15]*$f["precio_servicio"];
+            $total_serv = $total_items/ 0.336;
+            //para enero total x 1.45  = tg / 0.7  = 0.483; 
+            $gt += $total_serv;
+             $contador =  strlen($f[2]);
+            $table = $table.'<tr><td><img src="../../../imagenes/buscar.png" onclick="buscarcodfom('.$cont.')"></td><td width="7%">'
+                        .''
+                        .'<input type="text" id="cod'.$cont.'" value="" onchange="buscarpt('.$cont.')" title="'.$f[2].'" style="width:100%">
+                        <input type="hidden"  id="codtem'.$cont.'" value="'.$f[2].'">
+                        <input type="hidden"  id="gru'.$cont.'" value="">
+                        <input type="hidden"  id="cla'.$cont.'" value="">
+                        <input type="hidden"  id="ref'.$cont.'" value=""></td>
+                        <td width="25%"><textarea id="des'.$cont.'" rows="4" style="width:100%" onkeyup="contar('.$cont.')">'.$f[2].'</textarea></td>                     
+                        <td width="9%"><input type="text"  id="und'.$cont.'" value="94" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text"  id="med'.$cont.'" value="Und" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text"  id="col'.$cont.'" onclick="buscarcolor('.$cont.')" value="" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="can'.$cont.'" value="'.$f[15].'" style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="vlr'.$cont.'" value="'.number_format(($total_serv/$f[15]),0,'','').'"  style="width:100%"></td>
+                        <td class="hidden-phone"><input type="text" id="tot'.$cont.'" value="'.number_format(($total_serv),0,'','').'" style="width:100%" disabled>
+                        <input type="hidden" id="obs'.$cont.'" value="" style="width:100%">'
+                        . '<input type="hidden" id="item'.$cont.'" value="'.$f['id_cot_serv'].'" style="width:100%">'
+                        . '<td><input type="checkbox" id="'.$cont.'" name="item" checked   onclick="aprobar_items3('.$cont.')"><span id="con'.$cont.'">'.$contador.'</span></td></tr>'; 
+        }
+        
            $table = $table.'<tr><td></td><td><input type="text" disabled id="ct" value="'.$c.'" style="width:100%"></td>'
                 . '<td>Actualizados: <input type="text" disabled id="cv" value="'.$ca.'" style="width:40px"></td>'
                 . '<td colspan="4"></td><td>Valor Total</td>'

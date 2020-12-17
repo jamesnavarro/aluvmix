@@ -146,7 +146,6 @@ function mostrarCot(page){
                '<td>'+dev.PRO_NUMPED+'</td>'+
               '<td id="est'+dev.PRO_NUMORD+'">'+dev.PRO_USUARIO+'</td>'+
               '<td>'+e+'</td>'+
-              '<td id="es'+dev.PRO_NUMORD+'"></td>'+
               '<td><button type="button" name="Ver" id="btnlist'+dev.PRO_NUMORD+'" onclick="vermov('+tipo+','+doc+')"> Ver</button></td></tr>';
   return row;
 
@@ -167,21 +166,15 @@ function consultar_orden_monty_lista(tip,num,ped){
     $.ajax({
                 type: 'GET',
                 data: 'tip='+tip+'&num='+num+'&ped='+ped+'&sw=9',
-                url: '../vistas/planeacion/orden/acciones_tem.php',
+                url: '../vistas/planeacion/orden/acciones_rep.php',
                 success: function(t) {
-                    var p = eval(t);
                       console.log('Resultado: '+t);
-                      if(p[0]=='0'){
-                          $("#btnlist"+num).attr("class","btn-warning"); 
-                      }else if(p[0]=='1'){
+                      if(t=='0'){
+                          $("#btnlist"+num).attr("class","btn-danger"); 
+                      }else if(t=='1'){
                           $("#btnlist"+num).attr("class","btn-success"); 
                       }else{
                           $("#btnlist"+num).attr("class","btn-danger"); 
-                      }
-                      if(p[1]==null){
-                          $("#es"+num).html('<font color="red">Sin Generar</font>');
-                      }else{
-                          $("#es"+num).html(p[1]);
                       }
                      
                 }
@@ -189,7 +182,7 @@ function consultar_orden_monty_lista(tip,num,ped){
 }
 function vermov(tip,num){
 
-     window.open("../vistas/planeacion/orden/formulario.php?tipo="+tip+"&num="+num+"", "Productos", "width=1300px , height=800px"); 
+     window.open("../vistas/planeacion/orden/reposicion.php?tipo="+tip+"&num="+num+"", "Productos", "width=1300px , height=800px"); 
  }
  function consultar_enc(tip,num){
   
@@ -216,7 +209,7 @@ function vermov(tip,num){
                    bus_ter(p.PRO_CEDULA);
                    //bus_pedido(p.MOV_DOCAFE);
                    consultar_orden_monty(tip,num,p.PRO_NUMPED);
-                  
+                   consultar_detalle(tip,num);
                    
               
           }
@@ -237,28 +230,19 @@ function consultar_detalle(tip,doc){
               var total = 0;
               var row = "";
               var ct=0;
-              var x = 0;var xo = 0;
+              var x = 0;
               $.each(da, function(i, dev) {
                   x++;
                    var cod = "'"+dev.PRO_REFER+"'";
                    var col = "'"+dev.PRO_LOTE+"'";
                    var med = "'"+dev.PRO_UBICA+"'";
                    var can = "'"+dev.PRO_CANORD+"'";
-                   var undmed = dev.PRO_UNDMED;
-                   var cantidad;
-                   if(undmed=='94'){
-                       cantidad = dev.PRO_CANORD;
-                   }else{
-                       cantidad = '1';
-                   }
                   consultarproducto(dev.PRO_REFER,i);
                   consultar_items_id_cot(dev.PRO_REFER,dev.PRO_LOTE,dev.PRO_UBICA,i,dev.PRO_CANORD);
                   var doc = "'"+dev.PRO_NUMDOC+"'";
                   var t = dev.PRO_VALTOT / dev.PRO_CANORD;
                   total = parseFloat(total) + parseFloat(dev.PRO_VALTOT);
                   ct = parseFloat(ct) + parseFloat(dev.PRO_CANORD);
-                 
-                  
                   row+= '<tr>'+
                         '<td><input type="text" id="tip'+i+'" value="" disabled style="width: 100%">\n\
 </td><td><input type="text" id="cod'+i+'" value="'+dev.PRO_REFER+'" disabled style="width: 100%">\n\
@@ -277,12 +261,11 @@ function consultar_detalle(tip,doc){
 <input type="hidden" id="cant'+i+'" value="" disabled style="width: 100%">\n\
 <input type="hidden" id="cantid'+i+'" value="" disabled style="width: 100%">\n\
 </td>'+
-                        '<td><input type="text" id="des'+i+'" value="" disabled style="width: 100%"></td>'+
+                        '<td><input type="text" id="des'+i+'" value="'+dev.PRO_NOMREF+'" disabled style="width: 100%"></td>'+
                         '<td><input type="text" id="col'+i+'" value="'+dev.PRO_LOTE+'" disabled style="width: 100%"></td>\n\
                          <td><input type="text" id="per'+i+'" value="" disabled style="width: 100%"></td>\n\
                          <td><input type="text" id="boq'+i+'" value="" disabled style="width: 100%"></td>'+
-                        '<td><input type="text" id="med'+i+'" value="'+dev.PRO_UBICA+'" disabled style="width: 100%"></td>\n\
-<td><input type="text" id="undmed'+i+'" value="'+undmed+'" disabled style="width: 100%"></td>'+
+                        '<td><input type="text" id="med'+i+'" value="'+dev.PRO_UBICA+'" disabled style="width: 100%"></td>'+
                         '<td><input type="text" id="can'+i+'" value="'+dev.PRO_CANORD+'" disabled style="width: 100%"></td>'+
                         '<td><input type="text" id="canpro'+i+'" value="0" disabled style="width: 100%"></td>'+
                         
@@ -291,8 +274,7 @@ function consultar_detalle(tip,doc){
                              <input type="checkbox" id="'+i+'" name="item" checked disabled>\n\
                              <input type="text" id="iditem'+i+'" value="" disabled style="width: 70px"><span id="m'+i+'"></span></td></tr>';
               });
-              row+= '<tr><td><input type="text" id="ctitem" value="'+x+'" disabled style="width: 100%">\n\
-<input type="hidden" id="ctitemori" value="'+xo+'" disabled style="width: 100%"></td><td colspan="7">TOTALES</td>\n\
+              row+= '<tr><td><input type="text" id="ctitem" value="'+x+'" disabled style="width: 100%"></td><td colspan="6">TOTALES</td>\n\
 <td><input type="text" id="ct" value="'+ct+'" disabled style="width: 100%"></td>\n\
 <td>Pend:</td><td><input type="text" id="totalp" value="" disabled style="width: 100%"></td>\n\
 <td><button onclick="generarall()" id="btnall">Generar Todos Stk</button></td>';
@@ -308,7 +290,7 @@ function consultar_detalle(tip,doc){
     $.ajax({
                 type: 'GET',
                 data: 'tip='+tip+'&num='+num+'&ped='+ped+'&sw=1',
-                url: '../../planeacion/orden/acciones_tem.php',
+                url: '../../planeacion/orden/acciones_rep.php',
                 success: function(t) {
                      var p = eval(t);
                      
@@ -317,12 +299,7 @@ function consultar_detalle(tip,doc){
                      $("#idorden").val(p[4]);
                      $("#est").val(p[5]);
                      $("#e").html(p[6]);
-                     if(p[5]==0){
-                        $("#Guardar").attr("class","btn-danger");
-                     }else{
-                        $("#Guardar").attr("class","btn-success");
-                     }
-                      consultar_detalle(tip,num);
+                     //consultar_detalle(tip,num);
                      consultar_sticker(p[0]);
                     
                 }
@@ -334,7 +311,7 @@ function consultar_items_id_cot(cod,col,med,i,can){
         $.ajax({
                     type: 'GET',
                     data: 'idcot='+idcot+'&cod='+cod+'&med='+encodeURIComponent(med)+'&col='+col+'&can='+can+'&sw=2',
-                    url: '../../planeacion/orden/acciones_tem.php',
+                    url: '../../planeacion/orden/acciones_rep.php',
                     success: function(data){
                        
                         $("#iditem"+i).val(data);
@@ -347,7 +324,7 @@ function consultar_cantidad(item,i){
         $.ajax({
                     type: 'GET',
                     data: 'iditem='+item+'&sw=3',
-                    url: '../../planeacion/orden/acciones_tem.php',
+                    url: '../../planeacion/orden/acciones_rep.php',
                     success: function(data){
                        var p = eval(data);
                         $("#canpro"+i).val(p[8]);
@@ -383,7 +360,7 @@ function consultar_cantidad_agregada(item,i){
         $.ajax({
                     type: 'GET',
                     data: 'iditem='+item+'&sw=3',
-                    url: '../../planeacion/orden/acciones_tem.php',
+                    url: '../../planeacion/orden/acciones_rep.php',
                     success: function(data){
                        var p = eval(data);
                         $("#canpro"+i).val(p[8]);
@@ -421,21 +398,20 @@ function consultar_cantidad_agregada(item,i){
                 url: 'acciones.php',
                 success: function(t) {
                     var p = eval(t);
-                     $("#des"+i).val(p[2]); 
+                     //$("#des"+i).val(p[2]); 
                      //consultar_id_items()
                 }
            });
  }
  function generarstk(pt,i){
      var iditem = $("#iditem"+i).val();
-      var canped = $("#can"+i).val();
       $("#caja").val(i);
      var idcot = $("#idcot").val();
    
      $.ajax({
                     type: 'GET',
                     data: 'iditem='+iditem+'&idcot='+idcot+'&sw=3',
-                    url: '../../planeacion/orden/acciones_tem.php',
+                    url: '../../planeacion/orden/acciones_rep.php',
                     success: function(data){
                        var p = eval(data);
                      
@@ -448,7 +424,7 @@ function consultar_cantidad_agregada(item,i){
                              $("#anchohid").val(p[0]);
                              $("#anchocomp").val(p[0]);
                              $("#altohid").val(p[1]);
-                               $("#cant").val(p[2]);
+                               $("#cant").val(p[3]);
                                 $("#cantid").val(p[3]);
                                $("#lado").val(p[6]);
                                console.log('Lado:'+p[6]);
@@ -488,7 +464,7 @@ function consultar_cantidad_agregada(item,i){
 //                
                 var per = $('#per').val();
                 var boq = $('#boq').val();
-                if(parseInt(cantidad)>parseInt(cantidadid)){
+                if(cantidad>cantidadid){
                     alert("La cantidad digitada supera a la cantidad pendiente");
                     $("#cant").val(cantidadid);
                     return false;
@@ -531,7 +507,7 @@ function consultar_cantidad_agregada(item,i){
         var est = $("#est").val();
         $.ajax({
                         type : 'GET',
-                        url : '../../planeacion/orden/acciones_tem.php?op='+op+'&est='+est+'&sw=4',
+                        url : '../../planeacion/orden/acciones_rep.php?op='+op+'&est='+est+'&sw=4',
                         beforeSend: function(){
                                     $("#mostrar_ingresados").html('<img src="../../images/load.gif"> Generando...');
                                 },
@@ -616,16 +592,13 @@ function anularpri(){
 }
 function save_total(){
  
-    var ct = $("#ct").val();
-    var canord = $("#canord").val();
+    var est = $("#totalp").val();
      var cot = $('#idcot').val();
-  var cct = parseInt(canord) + 1;
-    if(parseInt(cct)<parseInt(ct)){
-        var c1 = confirm("¡AVISO! Hay item sin generar el sticker, ¿Deseas Seguir?");
-        if(!c1){
-            return false;
-        }
-    }
+  
+    if(est!=0){
+        alert("Debes de generar todos los sticker de esta OP");
+        return false;
+    }else{
         var estado = $("#est").val();
         if(estado=='0'){
             var c = confirm("Estas segura de mandar esta OP a produccion?");
@@ -656,9 +629,6 @@ function save_total(){
                 success: function(data){
                     alert(data);
                     $("#est").val('1');
-                    
-                        $("#Guardar").attr("class","btn-success");
-                     
                     consultar_sticker(op);
                 }
             }); 
@@ -666,7 +636,7 @@ function save_total(){
         }else{
             alert("Esta OP se encuentra guardada.");
         }
-    
+    }
 }
 
 function stiker_all(){
@@ -711,7 +681,7 @@ function stiker_all(){
     $.ajax({
                 type: 'GET',
                 data: 'op='+op+'&ob='+ob+'&sw=5',
-                url: '../../planeacion/orden/acciones_tem.php',
+                url: '../../planeacion/orden/acciones_rep.php',
                 success: function(t) {
                     alert("Se abrio la OP con exito");
                      $("#est").val(t);
@@ -766,7 +736,7 @@ function anularop(){
                 $.ajax({
                             type: 'GET',
                             data: 'item='+item+'&per='+per+'&boq='+boq+'&m1='+m1+'&m2='+m2+'&ma1='+ma1+'&ma2='+ma2+'&idpro='+idpro+'&ubi='+ubi+'&sw=6',
-                            url: '../../planeacion/orden/acciones_tem.php',
+                            url: '../../planeacion/orden/acciones_rep.php',
                             success: function(t) {
                                 alert("Se edito el items con exito");
                                
@@ -785,7 +755,7 @@ function partes(item){
     $.ajax({
                             type: 'GET',
                             data: 'item='+item+'&cot='+cot+'&op='+op+'&sw=7',
-                            url: '../../planeacion/orden/acciones_tem.php',
+                            url: '../../planeacion/orden/acciones_rep.php',
                             success: function(t) {
                                 $("#mostrar_cantidad").html(t);
                             }
@@ -814,7 +784,7 @@ function addpartes(item){
     $.ajax({
                             type: 'GET',
                             data: 'item='+item+'&ubi='+encodeURIComponent(ubi)+'&m1='+m1+'&m2='+m2+'&can='+can+'&op='+op+'&sw=8',
-                            url: '../../planeacion/orden/acciones_tem.php',
+                            url: '../../planeacion/orden/acciones_rep.php',
                             success: function(t) {
                                 alert(t);
                                 partes(item);
@@ -836,7 +806,6 @@ function generarall(){
     var cantt = $('#totalp').val();
     var ct = $('#ct').val();
     var ctitem = $('#ctitem').val();
-    var ctitemori = $('#ctitemori').val();
     if(parseInt(ct)!=parseInt(cantt)){
         alert("Ya no puedes generar todos los sticker al mismo tiempo");
         return false;

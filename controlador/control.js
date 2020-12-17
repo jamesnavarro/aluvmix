@@ -1182,3 +1182,16 @@ function vero(){
             }
 	   });
 }
+function colores_fom(){
+
+       $.ajax({
+            type: 'GET',
+            url: '../vistas/inventario/colorfom/index.php',
+            success: function(resultado){
+                    $("#encabezado").html("Listado de Colores");
+                    $("#controlador").html(resultado);
+                   //$("#msg").html("Pend: 1 ");
+            }
+           }); 
+
+}

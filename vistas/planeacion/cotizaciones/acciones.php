@@ -80,25 +80,30 @@ switch ($_GET['sw']){
         $p[67] = $r[67];
         $p[68] = $r[68];
         if($r[8]!='Vidrio'){
+                $sql71 = "SELECT count(id_cotizacion) FROM cotizaciones_materiales where id_cotizacion=".$id." ";
+                $dm =mysqli_fetch_array(mysqli_query($con2 ,$sql71));
+                
+                $sql7s = "SELECT count(id_cotizacion) FROM cotizaciones_servicios where id_cotizacion=".$id." ";
+                $ds =mysqli_fetch_array(mysqli_query($con2 ,$sql7s));
 
                 $sql7 = "SELECT count(id_cot) FROM desgloses_material where id_cot=".$id." ";
                 $de =mysqli_fetch_array(mysqli_query($con2 ,$sql7));
                 
                 $sql8 = "SELECT count(id_cot) FROM desgloses_vidrios where id_cot=".$id." ";
                 $dv =mysqli_fetch_array(mysqli_query($con2 ,$sql8));
-                $dtt = $de[0] + $dv[0];
+                $dtt = $de[0] + $dv[0] + $dm[0] + $ds[0];
                 if($dtt==0){
                     $p[69] = '<font color="red"> <img src="../../../imagenes/ledrojo.gif">Sin revisar desglose</font>';
                     $p[70] = '<font color="red"> <img src="../../../imagenes/ledrojo.gif">Sin revisar desglose</font>';
                     $p[71] = '0';
                 }else{
-                    $p[69] = '<img src="../../images/verficar.png" style="height: 32px">1. Aprobar '.$r[8];
+                    $p[69] = '<img src="../../images/verficar.png" style="height: 32px">1. Aprobar ';
                      $p[70] = '<font color="green"> Lista de Materiales Revisado</font>';
                      $p[71] = '1';
                 }
 
         }else{
-             $p[69] = '<img src="../../images/verficar.png" style="height: 32px">1. Aprobar '.$r[8];
+             $p[69] = '<img src="../../images/verficar.png" style="height: 32px">1. Aprobar ';
              $p[70] = '';
              $p[71] = '1';
         }
@@ -386,6 +391,24 @@ switch ($_GET['sw']){
         $cod = $_GET['cod']; 
 
         $request=mysqli_query($con2,"update cotizaciones set aprobado_por_user='".$_SESSION['k_username']."', estado_item='Anulado', fecha_aprobada='".$fecha."' where id_cotizacion ='$cod' ");
+        echo 'Se anulo el items '.$cod;
+           
+        
+        break;
+    case 14:
+        
+        $cod = $_GET['cod']; 
+
+        $request=mysqli_query($con2,"update cotizaciones_materiales set modificado='".$_SESSION['k_username']."', estad_mat='1' where id_cot_mat ='$cod' ");
+        echo 'Se anulo el items '.$cod;
+           
+        
+        break;
+    case 15:
+        
+        $cod = $_GET['cod']; 
+
+        $request=mysqli_query($con2,"update cotizaciones_servicios set modificado='".$_SESSION['k_username']."', estado_serv='1' where id_cot_serv ='$cod' ");
         echo 'Se anulo el items '.$cod;
            
         

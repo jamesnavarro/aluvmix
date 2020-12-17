@@ -105,7 +105,7 @@
                                <td></td>
                                <td></td>
                                <td>Sucursal</td>
-                               <td><input type="text" id="sucursal" style="width: 130px" value="" onclick="sucursales()"></td>
+                               <td><input type="text" id="sucursal"  style="width: 130px" value="" onclick="sucursales()"></td>
                            </tr>  
                            <tr>
                                <td>Almacen:</td> 

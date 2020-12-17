@@ -36,8 +36,7 @@ function tabla_sucursales(page){
  var p = "'"+dev.LOT_CODIGO+"'";
   var v = "'"+dev.LOT_NOMBRE+"'";
   var row = '<tr>'+
-              '<td>'+dev.LOT_CODIGO+'</td>\n\
-               <td><a href="#" onclick="pasarsuc('+p+','+v+')">'+dev.LOT_NOMBRE+'</a></td></tr>';
+              '<td><a href="#" onclick="pasarsuc('+p+','+v+')">'+dev.LOT_CODIGO+'</a></td></tr>';
   return row;
 
 }

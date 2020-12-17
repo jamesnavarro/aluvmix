@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="shortcut icon" href="../traz.ico">
-    <title>Buscar Vendedores
+    <title>Buscar Color
     </title>
     <meta name="description" content="">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -28,19 +28,19 @@ function pasar(cod,nom){
 </head>
 <body>
     <div>
-        <h3>LISTA DE VENDEDORES</h3>
+        <h3>LISTA DE COLORES</h3>
     </div>
 <div class="datagrid" id="">
     <input id="pos" type="hidden" value="<?php echo $_GET['posicion']; ?>">
     
     <table>
         <tr>
-            <th>CODIGO</th>
+
             <th>DESCRIPCION DEL COLOR</th>
 
         </tr>
         <tr>
-            <th>-</th>
+       
             <th><input type="text" id="buscar_empleado" style="width: 100%" autofocus="" onkeyup="tabla_sucursales(1)" placeholder="Buscar Color.."></th>
 
         </tr>

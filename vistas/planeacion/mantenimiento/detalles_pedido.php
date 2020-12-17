@@ -24,6 +24,8 @@ if($query){
        $gt +=($row["valor_und"]*$row['cantidad']);
        $descripcion = preg_replace('/( ){2,}/u',' ',$row['descripcion']);
        $contador =  strlen($descripcion);
+       
+       
                 $table = $table.'<tr><td></td><td width="7%">'
                         .''
                         .'<input type="text" id="cod'.$cont.'" value="'.$row['referencia'].'" onchange="buscarpt('.$cont.');updateitemped('.$cont.')" title="'.$row['referencia'].'" style="width:100%">
