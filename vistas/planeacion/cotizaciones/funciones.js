@@ -82,7 +82,8 @@ function mostrar_cotizacion(id,lin){
                  detalles_pedido(id,lin);
                  $("#obs").val(t[62]);
              }
-              if(t[54]!=''){
+             console.log('tipo de cuenta '+t[53]);
+              if(t[53]!=''){
                 $("#codcue").val(t[56]);
                 consultar_cuenta(t[56]);
               }
@@ -153,7 +154,7 @@ function validar_tercero(ced){
              $("#ciu").val(da.CLI_SUBZON);
              $("#cre").val(da.CLI_FORPAG);
               $("#codalm").focus();
-             var cu = $("#pedido").val();
+             var cu = $("#tipo").val();
               if(cu==''){
                   $("#codcue").val(da.CLI_TIPCTA);
                   consultar_cuenta(da.CLI_TIPCTA);
@@ -313,7 +314,7 @@ function consultar_tercero_monty(ced,nom,cuenta,dire,zona,tel,ema,ven){
 });
 }
 function detalles_cotizacion(id,lin){
-
+   console.log('detalle '+id+' '+lin);
     if(lin=='Vidrio'){
         $.ajax({
                 type: 'GET',
@@ -352,6 +353,10 @@ function inv_tercero_popup(cc){
     //validar_documento(); //validador si el documento se encuentra guardado
     
      window.open("../cotizaciones/terceros_fom/tercero.php?cc="+cc, "tercero", "width=900px , height=600px");
+}
+function inv_centro_costo_popup(){
+
+     window.open("../cotizaciones/centro_costos/costos.php", "tercero", "width=900px , height=600px");
 }
 function ImprimirPedido(){
    var cot = $("#cot").val();
@@ -730,6 +735,11 @@ function updateitemped(id){
 }
 
 function aiu(id,lin){
+    var est = $("#est").val();
+    if(est!='En proceso'){
+        alert('Ya no puedes pasar esta cotizacion a AIU.');
+        return false;
+    }
 $("#e").html('Pasando..<img src="../../images/guardando.gif" style="height: 30px">');
 $('#codcue').val('21');
 $('#nomcue').val('VENTAS OBRAS AIU');

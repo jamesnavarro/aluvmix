@@ -47,7 +47,7 @@ switch ($_GET['sw']){
         $fil = mysqli_fetch_array($querya);
         if($fil[0]==0){
             
-             $sql = "INSERT INTO aluvmixv3.cont_terceros (pvi,cod_ter, nom_ter, doc_ter, digiver_ter, dir_ter, telfijo_ter, telmovil_ter, ciudad_ter, municipio_ter, correo_ter, cont_ter, vendedor)";
+             $sql = "INSERT INTO aluvmixv2.cont_terceros (pvi,cod_ter, nom_ter, doc_ter, digiver_ter, dir_ter, telfijo_ter, telmovil_ter, ciudad_ter, municipio_ter, correo_ter, cont_ter, vendedor)";
              $sql .= "VALUES ('0','" . $ced . "','" . $nom . "','Nit','','" . $dire . "','" . $tel . "','','" . $valor1 . "','" . $valor2 . "','" . $ema . "','','" .$usuario. "')";
              $ver = mysqli_query($con_duos,$sql);
              echo '2. no encontrado alum'.mysqli_error($con_duos);

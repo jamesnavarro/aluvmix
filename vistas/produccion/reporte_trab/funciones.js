@@ -145,6 +145,16 @@ function GenerarReporte(){
          var tipo = $("#tipo").val();
     window.open('../vistas/produccion/reporte_trab/print_reptrab.php?grupo='+grupo+'&area='+area+'&inicio='+inicio+'&fin='+fin+'&ofi='+ofi+'&ayu='+ayu+'&tipo='+tipo+'','_blank');
 }
+ function printer2(){
+     var grupo = $("#grupo").val();
+         var area = $("#area").val();
+         var inicio = $("#inicio").val();
+         var fin = $("#fin").val();
+         var ofi = $("#vl_ofi").val();
+         var ayu = $("#vl_ayu").val();
+         var tipo = $("#tipo").val();
+   location.href=('../vistas/produccion/reporte_trab/reporte_excel.php?grupo='+grupo+'&area='+area+'&inicio='+inicio+'&fin='+fin+'&ofi='+ofi+'&ayu='+ayu+'&tipo='+tipo+'');
+}
  function VerInc(id){
     $.ajax({
             type: 'GET',

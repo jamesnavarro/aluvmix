@@ -122,7 +122,7 @@ switch ($_GET['sw']){
          $queryc = mysqli_query($conexion,"SELECT * FROM orden_detalle a, producto b where a.id_producto=b.id_p and a.codigo='".$op."' AND a.anula=0  order by a.id_op asc   ");
          $c=0;
          $co = 0;
-         while($fila = mysqli_fetch_array($queryc)){
+         while($fila = mysqli_fetch_array($queryc)){ 
              $c++;
             
                  $md = $fila['ancho_descuadre'];
@@ -188,7 +188,7 @@ switch ($_GET['sw']){
              . '<td><input type="text" id="boq'.$fila['id_orden_d'].'" '.$disable_boq.' value="'.$fila['boquete_item'].'" onchange="upitemsop('.$fila['id_orden_d'].')" style="width:40px"></td>'
              . '<td><input type="text" id="med1'.$fila['id_orden_d'].'" '.$disabled.' value="'.$fila['medida1'].'" onchange="upitemsop('.$fila['id_orden_d'].')" style="width:50px">i<input type="text" id="meda1'.$fila['id_orden_d'].'" '.$disabled.' value="'.$md.'" onchange="upitemsop('.$fila['id_orden_d'].')" style="width:50px"></td>'
              . '<td><input type="text" id="med2'.$fila['id_orden_d'].'" '.$disabled.' value="'.$fila['medida2'].'" onchange="upitemsop('.$fila['id_orden_d'].')" style="width:50px">i<input type="text" id="meda2'.$fila['id_orden_d'].'" '.$disabled.' value="'.$md2.'" onchange="upitemsop('.$fila['id_orden_d'].')" style="width:50px"></td>'
-             . '<td>'.$fila['color'].'</td>'
+             . '<td>'.$fila['color'].' <button onclick="agregaespesor('.$fila['id_orden_d'].')">?</button></td>'
              . '<td>'.$fila['cant_ordenada'].'</td>'
              . '<td>'.$bntimp.'</td>'
              . '<td>'.$anu.' '.$btntrazabilidad.' '.$btnpartes.'</td>';
@@ -325,6 +325,17 @@ switch ($_GET['sw']){
                       echo json_encode($p);
                     // 3
                     break;
+                     case 10:
+            $op=$_GET['op'];
+            $idv=$_GET['idv'];
+            $item=$_GET['item'];
+            $por = $_GET['ob'].', Mod:'.$_SESSION['k_username'].' dia:'.date("Y-m-d H:i");
+            $request=mysqli_query($conexion,'SELECT * FROM `tipo_vidrio` WHERE id_vidrio="'.$idv.'"');
+            $row=mysqli_fetch_array($request);
+                             
+            mysqli_query($conexion,"update orden_detalle set medida3='".$row['espesor_v']."', color='".$row['color_v']."', id_proceso='$idv'  WHERE id_orden_d=".$item."; ");
+            echo '0';
+            break;
 
 }
 }

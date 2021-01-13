@@ -90,7 +90,7 @@ switch ($_GET['sw']) {
                 . '<td>'.number_format($row[5],2).' Kg</td>'
                 . '<td>'.number_format($payu).'</td>'
                 . '<td>'.number_format($pofi).'</td>'
-                . '<td><button onclick="DetalleGenerarReporte()" id="btn"  class="btn btn-info">Ver Detalle</button> <button class="btn btn-inverse" onclick="printer();" ><i class="glyphicon glyphicon-print"></td>';
+                . '<td><button onclick="DetalleGenerarReporte()" id="btn"  class="btn btn-info">Ver Detalle</button> <button class="btn btn-success" onclick="printer2();" >Exportar Excel</button> <button class="btn btn-inverse" onclick="printer();" ><i class="glyphicon glyphicon-print"></td>';
            }
             
            break;
@@ -125,7 +125,7 @@ switch ($_GET['sw']) {
                . '<td>'.number_format($row[4],2).'</td>'
                . '<td style="text-align:right">'.number_format($row[5],2).'</td>'
                . '<td><center>'.$row[7].'</center></td>'
-               . '<td><button onclick="DetallePorOp('.$total.','.$row[6].')" id="btn'.$total.'">Ver mas Detalle</button></td>';
+               . '<td><button onclick="DetallePorOp('.$total.','.$row[6].')" id="btn'.$total.'&opf='.$_GET['opf'].'">Ver mas Detalle</button></td>';
                 echo '<tr><td id="'.$total.'" colspan="9"></td>';
            }
            echo '<tr>'
@@ -136,7 +136,7 @@ switch ($_GET['sw']) {
            . '<td>-</td>'
            . '<td>-</td>'
            . '<td style="text-align:right">'.number_format($peso).'</td>'
-           . '<td style="text-align:right">-</td>';
+           . '<td style="text-align:right"><button class="btn btn-success"><a href="../vistas/produccion/reporte_trab/reporte_excel.php?area='.$area.'&grupo='.$grupo.'&inicio='.$_GET['inicio'].'&fin='.$_GET['fin'].'">Exportar Excel</a></button></td>';
             
            break;
             case 5:

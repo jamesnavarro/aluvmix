@@ -825,6 +825,10 @@ function addpartes(item){
 function agregap(item) {
         window.open('http://172.16.0.40/planeacion/combos/viplane.php?item='+item, 'Vidrios', "width=1000, height=500");
       }
+      
+      function agregaespesor(item) {
+        window.open('http://172.16.0.40/planeacion/combos/espesores.php?item='+item, 'Vidrios', "width=1000, height=500");
+      }
 function medidas()
 {
     var op = $("#rad").val();
@@ -896,4 +900,18 @@ function generarall(){
     }
 
     
+}
+
+function update_espesor(idv,item){
+    var cot = $("#idcot").val();
+    var op = $("#rad").val();
+
+    $.ajax({
+                            type: 'GET',
+                            data: 'item='+item+'&cot='+cot+'&op='+op+'&idv='+idv+'&sw=10',
+                            url: '../../planeacion/orden/acciones_tem.php',
+                            success: function(t) {
+                               consultar_sticker(op);
+                            }
+                 });
 }

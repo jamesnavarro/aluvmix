@@ -91,11 +91,20 @@ switch ($_GET['sw']){
                 
                 $sql8 = "SELECT count(id_cot) FROM desgloses_vidrios where id_cot=".$id." ";
                 $dv =mysqli_fetch_array(mysqli_query($con2 ,$sql8));
-                $dtt = $de[0] + $dv[0] + $dm[0] + $ds[0];
+                $dtt = $de[0] + $dv[0];//$dm[0] + $ds[0]
+                $dtt2 = $dm[0] + $ds[0];
                 if($dtt==0){
-                    $p[69] = '<font color="red"> <img src="../../../imagenes/ledrojo.gif">Sin revisar desglose</font>';
-                    $p[70] = '<font color="red"> <img src="../../../imagenes/ledrojo.gif">Sin revisar desglose</font>';
-                    $p[71] = '0';
+                   
+                    if($dtt2>0){
+                         $p[69] = '<font color="red"> <img src="../../../imagenes/ledrojo.gif">Sin revisar desglose</font>';
+                        $p[70] = '<font color="red"> <img src="../../../imagenes/ledrojo.gif">Sin revisar desglose, pero puedes generar el pedido si solo es venta de materia prima</font>';
+                        $p[71] = '1';
+                    }else{
+                         $p[69] = '<font color="red"> <img src="../../../imagenes/ledrojo.gif">Sin revisar desglose</font>';
+                         $p[70] = '<font color="red"> <img src="../../../imagenes/ledrojo.gif">Sin revisar desglose</font>';
+                        $p[71] = '0';
+                    }
+                    
                 }else{
                     $p[69] = '<img src="../../images/verficar.png" style="height: 32px">1. Aprobar ';
                      $p[70] = '<font color="green"> Lista de Materiales Revisado</font>';

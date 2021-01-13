@@ -32,7 +32,7 @@ if($query){
                         <input type="hidden"  id="gru'.$cont.'" value="'.$row['grupo'].'">
                         <input type="hidden"  id="cla'.$cont.'" value="'.$row['clase'].'">
                         <input type="hidden"  id="ref'.$cont.'" value=""></td>
-                        <td width="25%"><input type="text" id="des'.$cont.'"  onkeyup="contar('.$cont.')"  style="width:100%" value="'.$descripcion.'" title="'.strlen($descripcion).'"></td>                     
+                        <td width="25%"><input type="text" id="des'.$cont.'"  onkeyup="contar('.$cont.')"  style="width:100%" value="'.strtoupper($descripcion).'" title="'.strlen($descripcion).'"></td>                     
                         <td width="9%"><input type="text"  id="und'.$cont.'" value="94" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text"  id="med'.$cont.'" onchange="updateitemped('.$cont.')"  value="'.$row["medida"].'" style="width:100%"></td>
                         <td class="hidden-phone"><input type="text"  id="col'.$cont.'" onclick="buscarcolor('.$cont.');"  value="'.$row["color"].'" style="width:100%"></td>

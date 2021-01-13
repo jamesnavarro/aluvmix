@@ -2132,7 +2132,10 @@ if(!isset($_SESSION['k_username'])){
 						</ul><!-- /.breadcrumb -->
                                                                       <ul class="breadcrumb">
 <!--                            <li><a href="http://sample.virtualdiseno.com/templado/vistas/?id=stad">ERP V 2.0</a> <span class="divider"></span></li>-->
-                            <li><a href="https://anydesk.com/es" target="_blank"><b><font color="red"> Necesitas ayuda?  Descarga  Anydesk y el area de sistemas podra ayudarte CLICK AQUI</font> </b></a> <span class="divider"></span></li>
+                            <li>
+<!--                                  <marquee bgcolor="yellow"><img src="papa.gif" style="width: 40px"> Feliz Navidad y Prospero A&ntilde;o Nuevo </marquee>-->
+<!--                                <a href="https://anydesk.com/es" target="_blank"><b><font color="red"> Necesitas ayuda?  Descarga  Anydesk y el area de sistemas podra ayudarte CLICK AQUI</font> </b></a> <span class="divider"></span>-->
+                            </li>
                             <li class="active"></li>
                         </ul>
 

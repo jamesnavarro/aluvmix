@@ -1,5 +1,5 @@
 <?php
-include '../../../modelo/conexionv1.php';
+include '../../../modelo/conexionv1.php'; 
 session_start();
 
     $page= $_GET['page'];

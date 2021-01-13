@@ -42,7 +42,7 @@ $(function(){
     $("#mostrar_tabla").html('<tr><td colspan="2">Cargando<img src="../images/load.gif"></td>');
       $.ajax({
           type:'GET',
-          url:'http://172.16.0.30:8989/api/DOCINV2020/lista/'+tip+'/'+doc+'/'+page+'/30/'+fec+'/'+alm+'',
+          url:'http://172.16.0.30:8989/api/DOCINV2021/lista/'+tip+'/'+doc+'/'+page+'/30/'+fec+'/'+alm+'',
           dataType: 'json',
           success: function(da){
             
@@ -106,7 +106,7 @@ function paginacion(p){
      $.ajax({
           type:'GET',
           //data: JSON.stringify(datos),
-           url:'http://172.16.0.30:8989/api/DOCINV2020/'+tip+'/'+num+'/1/1',
+           url:'http://172.16.0.30:8989/api/DOCINV2021/'+tip+'/'+num+'/1/1',
           contentType: 'application/json',
           success: function(da){
              $.each(da, function(i, p) {
@@ -144,7 +144,7 @@ function paginacion(p){
     $("#mostrar_moviemientos").html('<tr><td colspan="9">Cargando<img src="../../images/load.gif"></td>');
       $.ajax({
           type:'GET',
-          url:'http://172.16.0.30:8989/api/MOVINV2020/'+tip+'/'+doc+'/1/100',
+          url:'http://172.16.0.30:8989/api/MOVINV2021/'+tip+'/'+doc+'/1/100',
           dataType: 'json',
           success: function(da){
               var total = 0;
@@ -155,7 +155,7 @@ function paginacion(p){
                    var med = "'"+dev.MOV_UBICA+"'";
                    var can = "'"+dev.MOV_CANTID+"'";
                   consultarproducto(dev.MOV_REFER,i);
-                  consultar_items_id(dev.MOV_REFER,dev.MOV_LOTE,dev.MOV_UBICA,i,dev.MOV_CANTID);
+                  
                   var doc = "'"+dev.MOV_NUMDOC+"'";
                   var t = dev.MOV_VALOR / dev.MOV_CANTID;
                   total = parseFloat(total) + parseFloat(dev.MOV_VALOR);
@@ -172,14 +172,21 @@ function paginacion(p){
                         '<td><button type="button" name="Ver" onclick="darubicacion('+cod+','+col+','+med+','+can+','+i+')"> Ubicacion </button>\n\
                              <input type="checkbox" id="'+i+'" name="item" checked disabled>\n\
                              <input type="text" id="idi'+i+'" value="" disabled style="width: 50px"></td></tr>';
+                   setTimeout(consultar_items_id(dev.MOV_REFER,dev.MOV_LOTE,dev.MOV_UBICA,i,dev.MOV_CANTID),4000);
+                   //consultar_productos_monty();
               });
+              
               row+= '<tr><td colspan="7"></td><td><input type="text" id="totalp" value="" disabled style="width: 100%"></td>';
               pasartotal(total);
-              sumar_pendientes();
+         
+              
               $('#mostrar_moviemientos').html(row);
           }
         
-      });
+      }).done(function() {
+          setTimeout(consultar_productos_monty,1000);
+       });
+      
   }
   function pasartotal(t){
    $("#totalx").val(t);
@@ -267,6 +274,7 @@ function busca_mov(cod){
            });
  }
  function darubicacion(cod,col,med,can,i){
+     consultar_productos_monty();
       var rad = $("#rad").val();
       if(rad==''){
           alert("Debes de procesar el documento primero.");
@@ -516,6 +524,21 @@ function save_item_fom(idmov){
                                 
 });
 }
+function consultar_productos_monty(){
+ 
+    $("input[name=item]:checked").each(function(){
+        
+	var i = $(this).attr("id");
+        var cod = $("#cod"+i).val();
+        var med = $("#med"+i).val();
+        var col = $("#col"+i).val();
+        var can = $("#can"+i).val();
+        console.log('esta passando'+cod);
+      
+       consultar_items_id(cod,col,med,i,can);                            
+   });
+
+}
 function consultar_orden_monty(tip,num){
    
     $.ajax({
@@ -562,7 +585,7 @@ function consultar_items_id(cod,col,med,i,can){
                     data: 'rad='+rad+'&cod='+cod+'&med='+med+'&col='+col+'&can='+can+'&sw=6',
                     url: 'acciones.php',
                     success: function(data){
-                        console.log(data);
+                        console.log('que:'+data);
                          var p = eval(data);
                         $("#idi"+i).val(p[0]);
                         $("#pen"+i).val(p[1]);

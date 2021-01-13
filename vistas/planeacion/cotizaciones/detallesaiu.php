@@ -190,7 +190,7 @@ $c++;
                 $ref='';
                 $noti='';
                 $noti2='';
-                $ref='Item:'.$row['fila'].' - '.$row['tip'].' '.strtoupper($row['producto']).'  '.strtoupper($peli).'  '.strtoupper($d1).'  '.strtoupper($row['observaciones']).' PINT:'.strtoupper($row['color_ta']).' '.$noti.''.$noti2.''.$row["descripcion_rollo"].''.$poli.' '.strtoupper($vi).' (PRES:'.$fcot["coti"].') ('.substr($_SESSION['k_username'],0,2).')';
+                $ref='ITEM:'.$row['fila'].' - '.strtoupper($row['tip']).' '.strtoupper($row['producto']).'  '.strtoupper($peli).'  '.strtoupper($d1).'  '.strtoupper($row['observaciones']).' PINT:'.strtoupper($row['color_ta']).' '.$noti.''.$noti2.''.$row["descripcion_rollo"].''.$poli.' '.strtoupper($vi).' (PRES:'.$fcot["coti"].') ('.substr($_SESSION['k_username'],0,2).')';
                $preund = $tota / $row['cantidad_c'];
                //$gt +=$tota;
                $cadena_sin_espacios = preg_replace('/( ){2,}/u',' ',$ref);
