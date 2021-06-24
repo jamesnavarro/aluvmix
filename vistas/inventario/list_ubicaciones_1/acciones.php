@@ -104,5 +104,53 @@ switch ($_GET['sw']) {
                      mysqli_query($con,"update relacion_ubicaciones set stock_ubi='$can' where codigo_pro='$cod' and bod_codigo='$bod' and color_ubi='$col' and medida='$med' and ubicacion='$ubi'  ");
                      echo 'Se edito con exito .'.  mysqli_error($con). ' ='.$can; 
                 break;
+            
+            case 5:
+                    $idu =$_GET['idu']; 
+                    $bod=$_GET['bod'];
+                    $cod=$_GET['cod'];
+                    $col=$_GET['col'];
+                    $med=$_GET['med'];
+                    $ubi=$_GET['ubi'];
+                    $sto=$_GET['sto'];
+                    $can=$_GET['can']; 
+                     if($_GET['tipo']=='ENTRADA'){
+                         $doc='04';    
+                     }else{
+                         $doc='64';                
+                     }
+                    $cc='00030001';
+                   $obs='ACTUALIZAION DE CANTIDADES POR UBICACION INDIVIDUAL ';
+                   $compra='0';
+                   $factura='0';
+                   $almori=$_GET['bod'];
+                   $totalx=0;
+                   $est= 1 ;
+                   $ter=$_GET['ter'];
+                   $diferencia='';
+                   $sede='GALAPA';
+                   $descarga=$_GET['tipo'];
+                   $docfom='000000000';
+                   $ced= '800112904-6';
+                   $tipo='6';
+                   $puesto='0';
+           
+            //se inserta el encabezado
+                $ver=mysqli_query($con,"insert into mov_inventario (`rad_fom`,`sede`,`codigo_tm`,`cen_codigo`,`obs`,`id_orden`,`num_documento`,`bod_codigo`,`total`,`save_mov`,`codigo_ter`,`diferencia`,`usuario`,`tipo_movimiento`,`cod_empresa`,`tipo_orden`,`tercerofom`,`id_puesto`)"
+                        . " values ('$docfom', '$sede','$doc','$cc','$obs','$compra','$factura','$almori','$totalx','$est','$ter','$diferencia','$usuario','$descarga','$empresa','$tipo','$ced','$puesto')");
+        
+                 $rad = mysqli_insert_id($con);
+                 $query = mysqli_query($con,"select desc_prod,valor_unidad from mov_detalle where id_ref_mov='$idu' ");
+                 $d = mysqli_fetch_array($query);
+                 $des = $d[0];
+                 $pre = $d[1]; 
+                 // se inserta en la tabla antes de dar ubicacion
+                 $ver=mysqli_query($con_duos,"insert into mov_detalle(`id_mov`,`desc_prod`,`color`,`medida`,`saldo_inicial`,`cantidad`,`valor_unidad`,`pro_codigo`,`bod_codigo`,`estado_mov`)"
+                                                               ."values ('$rad','$des','$col','$med','$sto','$can','$pre','$cod','$almori','1')");
+                 $idi =  mysqli_insert_id($con_duos);
+                 
+                 // se inserta en la ubicaacion
+               
+                break;
             }
 

@@ -123,6 +123,55 @@ function pasar_ubicacion(ref,id){
         });
         
     }
+    function crear(idu,cod,col,med,bod,can,ubi){
+        $("#act_idu").val(idu);
+        $("#act_cod").val(cod);
+        $("#act_col").val(col);
+        $("#act_med").val(med);
+        $("#act_bod").val(bod);
+        $("#can_actual").val(can);
+        $("#act_ubi").val(ubi);
+    }
+    function generar(){
+        var idu = $("#act_idu").val();
+        var cod = $("#act_cod").val();
+        var col = $("#act_col").val();
+        var med = $("#act_med").val();
+        var bod = $("#act_bod").val();
+        var sto = $("#can_actual").val();
+        var ubi = $("#act_ubi").val();
+       var can = $("#can_act").val();
+       var tipo = $("#act_tipo").val();
+       if(tipo==''){
+           alert('Debes de seleccionar el tipo de movimientos');
+           $("#act_tipo").focus();
+              return false;
+       }
+       if(can=='' || can==0){
+           alert('Debes de digitar un valor valido');
+           $("#can_act").focus();
+              return false;
+       }
+       if(tipo=='SALIDA'){
+           if(parseInt(can)>parseInt(sto)){
+              alert('La cantidad digitada es mayor a la cantidad actual');
+              $("#can_act").val('');
+              $("#can_act").focus();
+              return false;
+           }
+       }
+       $.ajax({
+                type:'GET',
+                 data: 'idu='+idu+'&cod='+cod+'&col='+col+'&med='+med+'&bod='+bod+'&sto='+sto+'&ubi='+ubi+'&can='+can+'&tipo='+tipo+'&sw=5',
+                url: '../vistas/inventario/list_ubicaciones_1/acciones.php',
+            success: function(d){
+                $("#can_act").val('');
+                $("#act_tipo").val('');
+                alert(d);
+            }
+        });
+       
+    }
     function editaru(bod,cod,col,med,ubi,can){
         var c = confirm("Estas seguro de editar las cantidades segun el saldo?");
         if(c)

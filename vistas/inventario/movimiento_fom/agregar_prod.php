@@ -19,11 +19,11 @@ session_start();
                  $almori=$_POST['bod'];
                  $line=$_POST['line'];
 
-                $result = mysqli_query($con_duos, "SELECT sum(stock_ubi) FROM aluvmixv3.relacion_ubicaciones where codigo_pro='$cod' and bod_codigo='$almori'");
+                $result = mysqli_query($con_duos, "SELECT sum(stock_ubi) FROM aluvmixv2.relacion_ubicaciones where codigo_pro='$cod' and bod_codigo='$almori'");
                 $r = mysqli_fetch_row($result);
                 $saldo = $r[0];
            
-                $ver=mysqli_query($con_duos,"insert into aluvmixv3.mov_detalle(`id_mov`,`desc_prod`,`color`,`medida`,`saldo_inicial`,`cantidad`,`valor_unidad`,`pro_codigo`,`bod_codigo`,`estado_mov`)"
+                $ver=mysqli_query($con_duos,"insert into aluvmixv2.mov_detalle(`id_mov`,`desc_prod`,`color`,`medida`,`saldo_inicial`,`cantidad`,`valor_unidad`,`pro_codigo`,`bod_codigo`,`estado_mov`)"
                                                                ."values ('$rad','$des','$col','$med','$saldo','$can','$pre','$cod','$almori','0')");
                 $idi =  mysqli_insert_id($con_duos);
                 echo $idi;

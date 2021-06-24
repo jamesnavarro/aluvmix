@@ -24,7 +24,7 @@ if(isset($_SESSION['k_username'])){
         <th>UBICACION</th>
         <th>ULT MOV.</th>
         <th>ULT USER</th>
-        <th>MOVIMIENTOS</th>
+        <th>OPCIONES</th>
   </tr>
     <tr>
         <td><input type="text" id="bod_bn" placeholder="" class="col-xs-10 col-sm-12" /></td>
@@ -151,7 +151,83 @@ if(isset($_SESSION['k_username'])){
   </div>
 </div>
       
+<div id="ModalCrear" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Actualizacion de cantidades por ubicacion </h4>
+      </div>
+      <div class="modal-body">
+          <table style="width:100%">
+              <tr>
+                  <td>Codigo</td>
+                  <td>
+                      <input type="hidden" id="act_idu" disabled>
+                      <input type="text" id="act_cod" disabled>
+                  </td>
+                  <td>Color</td>
+                  <td>
+                      <input type="text" id="act_col" disabled>
+                  </td>
+              </tr>
+              <tr>
+                  <td>Medida</td>
+                  <td>
+                      <input type="text" id="act_med" disabled>
+                  </td>
+                  <td>Ubicacion</td>
+                  <td>
+                      <input type="text" id="act_ubi" disabled>
+                  </td>
+              </tr>
+              <tr>
+                  <td>Bodega</td>
+                  <td>
+                      <input type="text" id="act_bod" disabled>
+                  </td>
+                  <td>Tipo de Movimiento</td>
+                  <td>
+                      <select id="act_tipo">
+                          <option value="">Seleccione</option>
+                          <option value="ENTRADA">ENTRADA</option>
+                          <option value="SALIDA">SALIDA</option>
+                      </select>
+                  </td>
+              </tr>
+              <tr>
+                  <td>Stock Actual</td>
+                  <td>
+                      <input type="text" id="can_actual" disabled>
+                  </td>
+                  <td>Cantidad Actualizar</td>
+                  <td>
+                      <input type="text" id="can_act">
+                  </td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td>
+                      
+                  </td>
+                  <td></td>
+                  <td>
+                      <button type="button" id="btnsave" onclick="generar()" class="btn-primary">Actualizar</button>
+                  </td>
+              </tr>
+ 
+          </table>
+         
+      </div>
+<!--      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="trasladarubi()">Imprimir</button>
+      </div>-->
+    </div>
+
+  </div>
+</div>
 
 
 

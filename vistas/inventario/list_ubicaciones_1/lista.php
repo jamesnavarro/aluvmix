@@ -35,6 +35,10 @@ if(isset($_SESSION['k_username'])){
 	    while($fila=mysqli_fetch_array($request_ac))
 	{  
                 $cod = "'".$fila['codigo_pro']."'";
+                $bod = "'".$fila['bod_codigo']."'";
+                $col = "'".$fila['color_ubi']."'";
+                $med = "'".$fila['medida']."'";
+                $ubi = "'".$fila['ubicacion']."'";
 
              echo '<tr>'
              . '<td>'.$fila['bod_codigo'].'</td>'
@@ -45,7 +49,7 @@ if(isset($_SESSION['k_username'])){
              . '<td>'.$fila['ubicacion'].'</td>'
                       . '<td>'.$fila['fecha_ult_ent'].'</td>'
                       . '<td>'.$fila['ultimo_usuario'].'</td>'
-                     . '<td><button onclick="verlist('.$fila['id_ru'].')" data-toggle="modal" data-target="#ModalMovimientos"><img src="images/ver.png"> Detalles</button>'
+                     . '<td><button onclick="crear('.$fila['id_ru'].','.$cod.','.$col.','.$med.','.$bod.','.$fila['stock_ubi'].','.$ubi.')" data-toggle="modal" data-target="#ModalCrear"><img src="images/nuevocontacto.png"> </button> <button onclick="verlist('.$fila['id_ru'].')" data-toggle="modal" data-target="#ModalMovimientos"><img src="images/ver.png"> </button>'
              . '</td>';
   }
    echo '<tr><td colspan="6">';
