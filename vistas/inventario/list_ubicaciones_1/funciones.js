@@ -168,6 +168,8 @@ function pasar_ubicacion(ref,id){
                 $("#can_act").val('');
                 $("#act_tipo").val('');
                 alert(d);
+                mostrar_ubicedit(1);
+                 $("#ModalCrear").modal('hide');
             }
         });
        

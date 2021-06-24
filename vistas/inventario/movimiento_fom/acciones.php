@@ -103,7 +103,7 @@ switch ($_GET['sw']) {
            
             if($id==''){
                 $ver=mysqli_query($con,"insert into mov_inventario (`rad_fom`,`sede`,`codigo_tm`,`cen_codigo`,`obs`,`id_orden`,`num_documento`,`bod_codigo`,`total`,`save_mov`,`codigo_ter`,`diferencia`,`usuario`,`tipo_movimiento`,`cod_empresa`,`tipo_orden`,`tercerofom`,`id_puesto`)"
-                        . " values ('$docfom', '$sede','$doc','$cc','$obs','$compra','$factura','$almori','$totalx','$est','$ter','$diferencia','$usuario','$descarga','$empresa','$tipo','$ced','$puesto')");
+                        . " values ('$docfom', '$sede','$doc','$cc','$obs','$compra','$factura','$almori','$totalx','$est','$ter','$diferencia','$usuario','$descarga','$empresa','6','$ced','$puesto')");
         
                 $ultimo = mysqli_insert_id($con);
                 $error = mysqli_error($con);

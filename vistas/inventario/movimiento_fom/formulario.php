@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="../../assets/css/bootstrap-datetimepicker.min.css" />
         <link rel="stylesheet" href="../../assets/css/bootstrap-colorpicker.min.css" />
         <link href="../../../css/estilo.css" rel="stylesheet">
-        <script src="funciones.js?v=3.4"></script>
+        <script src="funciones.js?v=3.6"></script>
    
     </head>
     <body>
@@ -146,10 +146,10 @@
                                                 }
                                                 ?>
                                   </select></td>   
-                               <td>Descarga Inv.</td>
+                               <td>Descarga Inv.</td> 
                                <td><input type="text" id="descarga" style="width: 80px" disabled value="<?php echo $_GET['tipo'] ?>"></td>
-                               <td></td>
-                               <td><button type="button" id="continuar" onclick="continuar();"><img src="../../images/play.png"> Continuar</button></td>
+                               <td><button type="button" id="vali" onclick="validacion_referencias();"> Validar referencias</button></td>
+                               <td><button type="button" id="continuar" disabled onclick="continuar();"><img src="../../images/play.png"> Continuar</button></td>
                            </tr> 
                        </table>
                        <table width="100%">

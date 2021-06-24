@@ -560,6 +560,41 @@ function save_item_fom(idmov){
                                 
 });
 }
+function validacion_referencias(){
+    var ok = 0;
+    $("input[name=item]:checked").each(function(){
+	var i = $(this).attr("id");
+        var cod = $("#cod"+i).val();
+        var med = $("#med"+i).val();
+        var col = $("#col"+i).val();
+        var can = $("#can"+i).val();
+        var pcan = $("#pen"+i).val();
+        var bod = $("#loc").val();
+        var idcot = '';
+        var pre = $("#pre"+i).val();
+        var des = $("#des"+i).val();
+        var t;
+        var line = ''; 
+        $.ajax({
+				type: 'POST',
+				data: 'cod='+cod+'&line='+line+'&pcan='+pcan+'&idcot='+idcot+'&pre='+pre+'&des='+encodeURIComponent(des)+'&med='+med+'&col='+col+'&bod='+bod+'&can='+can+'&id='+i,
+				url: 'validacion.php',
+				success: function(data){
+                                    if(data==0){
+                                         $("#continuar").attr('disabled',true);
+                                         alert('Hay referencias que no estan guardadas en monty.');
+                                         return false;
+                                    }else{
+                                        $("#continuar").attr('disabled',false);
+                                    }
+
+				}
+			});                            
+});
+
+
+}
+
 function consultar_productos_monty(){
  
     $("input[name=item]:checked").each(function(){
