@@ -97,8 +97,8 @@
                                 
                               <td>Tipo de Cuenta</td>
                               <td><input type="text" disabled onchange="consultar_cuenta(this.value);" id="codcue" style="width: 100px" value="00">
-                                  <button id="btn_ter" disabled>00</button> 
-                               <input type="text" id="nomcue" style="width: 250px" disabled value="VENTAS DE CONTADO"></td>
+                                  <button id="btn_ter" disabled></button> 
+                               <input type="text" id="nomcue" style="width: 250px" disabled value=""></td>
                                
                                
                                

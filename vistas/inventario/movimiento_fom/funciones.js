@@ -171,7 +171,7 @@ function paginacion(p){
                          '<td><input type="text" id="pen'+i+'" value="" disabled style="width: 100%"></td>'+
                         '<td><button type="button" name="Ver" onclick="darubicacion('+cod+','+col+','+med+','+can+','+i+')"> Ubicacion </button>\n\
                              <input type="checkbox" id="'+i+'" name="item" checked disabled>\n\
-                             <input type="text" id="idi'+i+'" value="" disabled style="width: 50px"></td></tr>';
+                             <input type="text" id="idi'+i+'" value="" disabled style="width: 50px"> <button onclick="devolver('+can+','+i+')">?</button></td></tr>';
                    setTimeout(consultar_items_id(dev.MOV_REFER,dev.MOV_LOTE,dev.MOV_UBICA,i,dev.MOV_CANTID),4000);
                    //consultar_productos_monty();
               });
@@ -186,6 +186,32 @@ function paginacion(p){
       }).done(function() {
           setTimeout(consultar_productos_monty,1000);
        });
+      
+  }
+  
+  function devolver(can,i){
+      var est = $("#est").val();
+      if(est==1){
+          alert("Este documento ya se encuentra guardado, No puedes devolver las cantidades pendientes.");
+          return false;
+      }
+      var c = confirm("Estas seguro de reestablecer las cantidades pendientes?");
+      if(c){
+      var bod= $("#loc").val();
+      var rad= $("#rad").val();
+      var descarga= $("#descarga").val();
+      var pen= $("#pen"+i).val();
+      var idi= $("#idi"+i).val();
+      $.ajax({
+                type: 'GET',
+                 data: 'idi='+idi+'&bod='+bod+'&rad='+rad+'&descarga='+descarga+'&sw=6.2',
+                url: 'acciones.php',
+         success: function(t) {
+             alert(t);
+             $("#pen"+i).val(can);
+         }
+      });
+    }
       
   }
   function pasartotal(t){
@@ -363,12 +389,20 @@ function busca_mov(cod){
     var caning = $("#u_ing"+id).val();
     var canubi = $("#u_can"+id).val();
     var tipo = $("#descarga").val();
+    var color_solicitado = $("#colo").val();
+    var color_bodega = $("#u_col"+id).val();
+    
     if(tipo=='SALIDA'){
     if(parseFloat(caning)>parseFloat(canubi)){
         alert("La cantidad digitada supera la cantidad de la ubicacion");
         $("#u_ing"+id).val('');
         return false;
-    }}
+    }
+    if(color_solicitado!=color_bodega){
+        alert("El color solicitado no es igual al que estas seleccionando");
+        return false;
+    }
+   }
     if(parseFloat(caning)>parseFloat(canpri)){
         alert("La cantidad digitada supera la cantidad solicitada del items");
         $("#u_ing"+id).val('');
@@ -384,12 +418,14 @@ function busca_mov(cod){
     var cod = $("#cod").val(); 
    
     var cans = $("#cant"+id).val(); 
-    var st = $("#u_can"+id).val();
+    var st = $("#u_can"+id).val();// restar a este campo
     var color = $("#colo").val();
     var tipo = $("#descarga").val();
     if(tipo=='SALIDA'){
        var ubi = $("#u_ubi"+id).val();
-        var cant = $("#u_ing"+id).val(); 
+        var cant = $("#u_ing"+id).val(); // caja de resta en caso de salida
+        var desc = st - cant;
+        $("#u_can"+id).val(desc);
     }else{
         var ubi = $("#u_ubi").val();
          var cant = $("#u_ing").val(); 
@@ -417,7 +453,7 @@ function busca_mov(cod){
     $("#botonubi").attr("disabled",true);
     $.ajax({
             type: 'GET',
-            data: 'rad='+rad+'&loc='+loc+'&cod='+cod+'&idmd='+idmd+'&cost='+cost+'&cant='+cant+'&st='+st+'&ubi='+ubi+'&color='+color+'&sw=7',  //
+            data: 'rad='+rad+'&loc='+loc+'&cod='+cod+'&idmd='+idmd+'&cost='+cost+'&cant='+cant+'&st='+st+'&ubi='+ubi+'&color='+color+'&tipo='+tipo+'&sw=7',  //
             url: 'acciones.php', //
             success: function(resultado){
 //                mostrar_ubi_can();

@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="../../assets/css/bootstrap-datetimepicker.min.css" />
         <link rel="stylesheet" href="../../assets/css/bootstrap-colorpicker.min.css" />
         <link href="../../../css/estilo.css" rel="stylesheet">
-        <script src="funciones.js?v=3.1"></script>
+        <script src="funciones.js?v=3.4"></script>
    
     </head>
     <body>

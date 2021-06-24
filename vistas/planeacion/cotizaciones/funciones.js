@@ -420,6 +420,7 @@ function save_total(){
     var ct = $('#ct').val();
     var cv = $('#cv').val(); 
     var contador = 0;
+    $('#Guardar').attr("disabled",true);
          $("input[name=item]:checked").each(function(){
                    var i = $(this).attr("id");
                    var cod = $('#col'+i).val();

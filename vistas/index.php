@@ -12,7 +12,7 @@ if(!isset($_SESSION['k_username'])){
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Monty 2.0</title>
+		<title>Monty 2.1</title>
 		<meta name="description" content="" /> 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -66,7 +66,7 @@ if(!isset($_SESSION['k_username'])){
 					<a href="index.php" class="navbar-brand">
 						<small>
 							<i class="fa fa-building"></i>
-							Monty V.2.0
+							Monty V.2.1
 						</small>
 					</a>
 				</div>

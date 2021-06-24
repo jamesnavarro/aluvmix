@@ -147,13 +147,50 @@ switch ($_GET['sw']) {
                  $fila = mysqli_fetch_array($query);
                  
                  $lis=mysqli_query($con, "SELECT SUM(cantidad_mov) FROM mov_detalle_ubi WHERE id_ref_mov!=0 and id_ref_mov='".$fila[0]."' and codigo_pro='".$cod."'");
-		   	$ress=mysqli_fetch_assoc($lis);
-		   	$resta=($ress['SUM(cantidad_mov)']);
+		 $ress=mysqli_fetch_assoc($lis);
+		 $resta=($ress['SUM(cantidad_mov)']);
                         
                  $p = array();
                     $p[0] = $fila[0];
                     $p[1] = $_GET['can']-$resta;
                 echo json_encode($p); 
+                
+               exit();
+            break;
+        case 6.1:
+                 $id=$_GET['id'];
+                 $lis=mysqli_query($con, "DELETE FROM mov_detalle_ubi WHERE id_mov='".$id."' ");
+		 
+                
+               exit();
+            break;
+        case 6.2:
+                 
+                  $ref=$_GET['idi'];
+                  $rad=$_GET['rad'];
+                  $bod=$_GET['bod'];
+                  $descarga=$_GET['descarga'];
+                  
+                 $lis=mysqli_query($con, "SELECT * FROM mov_detalle_ubi WHERE id_mov='".$rad."' and id_ref_mov='$ref' ");
+                 while ($row = mysqli_fetch_array($lis)) {
+                     $ubi = $row['ubicacion'];
+                     $can = $row['cantidad_mov'];
+                     $col = $row['color_du'];
+                     $loc = $row['bodega'];
+                     $cod = $row['codigo_pro'];
+                     if($descarga=='SALIDA'){
+                         mysqli_query($con,"update `relacion_ubicaciones` set stock_ubi=stock_ubi+'$can' WHERE bod_codigo='$loc' and codigo_pro='$cod'  and ubicacion='$ubi' and color_ubi='$col' "); //consultA modificada por navabla
+                      
+                     }else{
+                         mysqli_query($con,"update `relacion_ubicaciones` set stock_ubi=stock_ubi-'$can' WHERE bod_codigo='$loc' and codigo_pro='$cod'  and ubicacion='$ubi' and color_ubi='$col' "); //consultA modificada por navabla
+                     
+                     }
+                     
+                 }
+                 
+                 $lise=mysqli_query($con, "DELETE FROM mov_detalle_ubi WHERE id_mov='".$rad."' and id_ref_mov='$ref' ");
+                 echo 'Se devolvieron las cantidades a su bodega actual';
+		 
                 
                exit();
             break;
@@ -168,6 +205,7 @@ switch ($_GET['sw']) {
                $idmd = $_GET['idmd'];
                $st = $_GET['st'];
                $color = $_GET['color'];
+               $tipo = $_GET['tipo'];
                //esta parte se actualiza al momento de guardar. 321532033 
                $result = mysqli_query($con,"select count(codigo_pro), cantidad_mov from mov_detalle_ubi where codigo_pro='$cod' and ubicacion='$ubi' and bodega='$loc' and id_mov='$rad' and color_du='$color' ");
                $r = mysqli_fetch_row($result);
@@ -176,13 +214,18 @@ switch ($_GET['sw']) {
                    $resultu = mysqli_query($con, "SELECT sum(stock_ubi) FROM `relacion_ubicaciones` where codigo_pro='$cod' and bod_codigo='$loc' and ubicacion='$ubi' and color_ubi='$color'");
                    $ru = mysqli_fetch_row($resultu);
                    $saldo = $ru[0];
-                
+                   if($tipo=='SALIDA'){
+                    mysqli_query($con,"update `relacion_ubicaciones` set stock_ubi=stock_ubi-'$cant' WHERE bod_codigo='$loc' and codigo_pro='$cod'  and ubicacion='$ubi' and color_ubi='$color' "); //consultA modificada por navabla
+                   }
                     mysqli_query($con, "INSERT INTO `mov_detalle_ubi`(`saldo_ubicacion`,`estado_mu`,`id_mov`,`id_ref_mov`,`bodega`, `codigo_pro`, `ubicacion`, `cantidad_mov`,  `fecha_ult_com`, `user_ult_com`, `costo_ult_com`, `color_du`) "
                        . "VALUES ('".$saldo."','0', '".$rad."','".$idmd."','".$loc."','".$cod."','".$ubi."','".$cant."','".date("Y-m-d")."','".$_SESSION['k_username']."', '".$cost."', '".$color."')");
               echo 'Se registro con exito. '.mysqli_error($con).' $cod:'.$cod.' $ubi'.$ubi.' $loc'.$loc.' $color'.$color ;
                }else{
                    mysqli_query($con,"update mov_detalle_ubi set saldo_ubicacion='$saldo',cantidad_mov=cantidad_mov+'$cant',  fecha_ult_com='".date("Y-m-d")."',user_ult_com='".$_SESSION['k_username']."',costo_ult_com='$cost' where codigo_pro='$cod' and ubicacion='$ubi' and bodega='$loc' and id_mov='$rad' and color_du='$color' ");
-               echo 'Se actualizo con exito. '.mysqli_error($con).' saldo:'.$saldo;
+                   if($tipo=='SALIDA'){
+                   mysqli_query($con,"update `relacion_ubicaciones` set stock_ubi=stock_ubi-'$cant' WHERE bod_codigo='$loc' and codigo_pro='$cod'  and ubicacion='$ubi' and color_ubi='$color' "); //consultA modificada por navabla
+                   }
+                   echo 'Se actualizo con exito. '.mysqli_error($con).' saldo:'.$saldo;
                    
                }
                
@@ -241,9 +284,10 @@ switch ($_GET['sw']) {
                        if($tipo=='ENTRADA'){
                             mysqli_query($con, "update relacion_ubicaciones set stock_ubi=stock_ubi+'$can',costo_ultimo='$precio_promedio' where codigo_pro='$cod' and ubicacion='$ubi' and bod_codigo='$bod' ");// and color_ubi='$color'
                        }else{
-                            mysqli_query($con, "update relacion_ubicaciones set stock_ubi=stock_ubi-'$can' where codigo_pro='$cod' and ubicacion='$ubi' and bod_codigo='$bod'  ");//and color_ubi='$color'
+                            //mysqli_query($con, "update relacion_ubicaciones set stock_ubi=stock_ubi-'$can' where codigo_pro='$cod' and ubicacion='$ubi' and bod_codigo='$bod'  ");//and color_ubi='$color'
                        
-                            $falla = mysqli_error($con);
+                           // $falla = mysqli_error($con); modificado el 21 de mayo 2021
+                            $falla = '';
                        }
                        $error = $error.$can.'-'.$tipo.'-'.$falla;  
                    }
